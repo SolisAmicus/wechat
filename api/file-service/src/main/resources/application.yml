@@ -1,0 +1,9 @@
+server:
+  port: 5555
+  tomcat:
+    uri-encoding: UTF-8
+    max-swallow-size: -1
+
+logging:
+  level:
+    root: info
