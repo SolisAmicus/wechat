@@ -1,8 +1,13 @@
 server:
-  port: 7777
   tomcat:
     uri-encoding: UTF-8
     max-swallow-size: -1
+
+spring:
+  application:
+    name: main-service
+  profiles:
+    active: dev
 
 logging:
   level:

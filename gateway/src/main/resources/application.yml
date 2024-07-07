@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: file-service
+    name: gateway
   profiles:
     active: dev
 
