@@ -5,7 +5,7 @@ spring:
   data:
     redis:
       host: 127.0.0.1
-      port: 6379
+      port: 16379
       password: redis
       database: 0
   cloud:
@@ -22,7 +22,7 @@ spring:
         - id: authRoute
           uri: lb://auth-service
           predicates:
-            - Path=/a/**
+            - Path=/a/**,/passport/**
         - id: fileRoute
           uri: lb://file-service
           predicates:

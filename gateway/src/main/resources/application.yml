@@ -12,3 +12,8 @@ spring:
 logging:
   level:
     root: info
+
+blackIp:
+  continueCounts: 3
+  timeInterval: 20
+  limitTimes: 30
