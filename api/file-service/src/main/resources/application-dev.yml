@@ -8,3 +8,9 @@ spring:
         server-addr: 127.0.0.1:8848
         username: nacos
         password: nacos
+minio:
+  endpoint: http://127.0.0.1:9000
+  fileHost: http://127.0.0.1:9000
+  bucketName: wechat
+  accessKey: solisamicus
+  secretKey: miniowechat

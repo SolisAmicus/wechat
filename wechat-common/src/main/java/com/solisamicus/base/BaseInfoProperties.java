@@ -8,8 +8,6 @@ public class BaseInfoProperties {
     @Autowired
     public RedisOperator redis;
 
-    public static final String SYMBOL_DOT = ".";
-
     public static final String HEADER_USER_ID = "headerUserId";
 
     public static final String HEADER_USER_TOKEN = "headerUserToken";
@@ -18,7 +16,13 @@ public class BaseInfoProperties {
 
     public static final String TOKEN_USER_PREFIX = "app";
 
-    public static final String MOBILE_SMSCODE = "mobile:smscode";
+    public static final String MOBILE_SMSCODE_PREFIX = "mobile:smscode"; // Verification code prefix
+
+    public static final Integer CAPTCHA_LENGTH = 6; // Verification code length
+
+    public static final Integer CAPTCHA_VALIDITY_SECONDS = 60; // Verification code validity period
+
+    public static final Integer CAPTCHA_EXPIRATION_SECONDS = 300; //  Verification code expiration period
 
     public static final String REDIS_USER_ALREADY_UPDATE_WECHAT_NUM = "redis_user_already_update_wechat_num";
 }

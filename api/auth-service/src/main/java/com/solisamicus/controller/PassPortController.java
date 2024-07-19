@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.solisamicus.constants.Symbols.COLON;
+import static com.solisamicus.constants.Symbols.DOT;
+
 @RestController
 @RequestMapping("passport")
 public class PassPortController extends BaseInfoProperties {
@@ -28,16 +31,19 @@ public class PassPortController extends BaseInfoProperties {
     @Autowired
     private IUsersService usersService;
 
-    // 127.0.0.1:8888/passport/getSMSCode
     @PostMapping("getSMSCode")
     public GraceJSONResult getSMSCode(String mobile, HttpServletRequest request) {
         if (StringUtils.isBlank(mobile)) {
             return GraceJSONResult.error();
         }
-        redis.setIfAbsentWithTTL(MOBILE_SMSCODE + ":" + IPUtil.getRequestIp(request), mobile, 60); // 有效验证码
-        String captcha = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+
+        String ip = IPUtil.getRequestIp(request);
+        redis.setIfAbsentWithTTL(captchaRedisKey(ip), mobile, CAPTCHA_VALIDITY_SECONDS); // <keyForIp, mobile>
+
+        String captcha = generateCaptcha();
         smsTask.sendSMSAsync(mobile, captcha);
-        redis.set(MOBILE_SMSCODE + ":" + mobile, captcha, 5 * 60); // 过期验证码
+        redis.set(captchaRedisKey(mobile), captcha, CAPTCHA_EXPIRATION_SECONDS); //  <keyForMobile, captcha>
+
         return GraceJSONResult.ok();
     }
 
@@ -46,38 +52,54 @@ public class PassPortController extends BaseInfoProperties {
         String mobile = registerBO.getMobile();
         String captcha = registerBO.getSmsCode();
         String nickname = registerBO.getNickname();
-        String rCaptcha = redis.get(MOBILE_SMSCODE + ":" + mobile);
-        if (StringUtils.isBlank(rCaptcha) || !rCaptcha.equalsIgnoreCase(captcha)) {
+
+        String redisKey = captchaRedisKey(mobile);
+        String storedCaptcha = redis.get(redisKey);
+
+        if (StringUtils.isBlank(storedCaptcha) || !storedCaptcha.equalsIgnoreCase(captcha)) {
             return GraceJSONResult.errorCustom(ResponseStatusEnum.SMS_CODE_ERROR);
         }
+
+        redis.del(redisKey);
+
         Users user = usersService.queryMobileIfExist(mobile);
-        if (user == null) {
-            user = usersService.createUsers(mobile, nickname);
-        } else {
+        if (user != null) {
             return GraceJSONResult.errorCustom(ResponseStatusEnum.USER_ALREADY_EXIST_ERROR);
         }
-        redis.del(MOBILE_SMSCODE + ":" + mobile);
-        return GraceJSONResult.ok(user);
+        user = usersService.createUsers(mobile, nickname);
+
+        String uToken = generateUserToken();
+        redis.set(tokenRedisKey(user.getId()), uToken);
+        // String keyForUserDevice = tokenRedisKey(uToken);
+        // redis.set(keyForUserDevice,uId);
+
+        UsersVO usersVO = convertToUsersVO(user, uToken);
+        return GraceJSONResult.ok(usersVO);
     }
 
     @PostMapping("login")
     public GraceJSONResult login(@RequestBody @Valid LoginBO loginBO) {
         String mobile = loginBO.getMobile();
         String captcha = loginBO.getSmsCode();
-        String rCaptcha = redis.get(MOBILE_SMSCODE + ":" + mobile);
-        if (StringUtils.isBlank(rCaptcha) || !rCaptcha.equalsIgnoreCase(captcha)) {
+
+        String redisKey = captchaRedisKey(mobile);
+        String storedCaptcha = redis.get(redisKey);
+
+        if (StringUtils.isBlank(storedCaptcha) || !storedCaptcha.equalsIgnoreCase(captcha)) {
             return GraceJSONResult.errorCustom(ResponseStatusEnum.SMS_CODE_ERROR);
         }
+
+        redis.del(redisKey);
+
         Users user = usersService.queryMobileIfExist(mobile);
         if (user == null) {
             return GraceJSONResult.errorCustom(ResponseStatusEnum.USER_NOT_EXIST_ERROR);
         }
-        redis.del(MOBILE_SMSCODE + ":" + mobile);
-        String uToken = TOKEN_USER_PREFIX + SYMBOL_DOT + UUID.randomUUID();
-        redis.set(REDIS_USER_TOKEN + ":" + user.getId(), uToken);
-        UsersVO usersVO = new UsersVO();
-        BeanUtils.copyProperties(user, usersVO);
-        usersVO.setUserToken(uToken);
+
+        String uToken = generateUserToken();
+        redis.set(tokenRedisKey(user.getId()), uToken);
+
+        UsersVO usersVO = convertToUsersVO(user, uToken);
         return GraceJSONResult.ok(usersVO);
     }
 
@@ -86,26 +108,87 @@ public class PassPortController extends BaseInfoProperties {
         String mobile = registerBO.getMobile();
         String captcha = registerBO.getSmsCode();
         String nickname = registerBO.getNickname();
-        String rCaptcha = redis.get(MOBILE_SMSCODE + ":" + mobile);
-        if (StringUtils.isBlank(rCaptcha) || !rCaptcha.equalsIgnoreCase(captcha)) {
+
+        String redisKey = captchaRedisKey(mobile);
+        String storedCaptcha = redis.get(redisKey);
+
+        if (StringUtils.isBlank(storedCaptcha) || !storedCaptcha.equalsIgnoreCase(captcha)) {
             return GraceJSONResult.errorCustom(ResponseStatusEnum.SMS_CODE_ERROR);
         }
+
+        redis.del(redisKey);
+
         Users user = usersService.queryMobileIfExist(mobile);
+
         if (user == null) {
             user = usersService.createUsers(mobile, nickname);
         }
-        redis.del(MOBILE_SMSCODE + ":" + mobile);
-        String uToken = TOKEN_USER_PREFIX + SYMBOL_DOT + UUID.randomUUID().toString();
-        redis.set(REDIS_USER_TOKEN + ":" + user.getId(), uToken);
-        UsersVO usersVO = new UsersVO();
-        BeanUtils.copyProperties(user, usersVO);
-        usersVO.setUserToken(uToken);
+
+        String uToken = generateUserToken();
+        redis.set(tokenRedisKey(user.getId()), uToken);
+
+
+        UsersVO usersVO = convertToUsersVO(user, uToken);
         return GraceJSONResult.ok(usersVO);
     }
 
     @PostMapping("logout")
-    public GraceJSONResult logout(@RequestParam String userId) {
-        redis.del(REDIS_USER_TOKEN + ":" + userId);
+    public GraceJSONResult logout(@RequestParam("userId") String userId) {
+        redis.del(tokenRedisKey(userId));
         return GraceJSONResult.ok();
+    }
+
+
+    /**
+     * Generate verification code
+     *
+     * @return Returns a random verification code of [0000000,999999]
+     */
+    private String generateCaptcha() {
+        int randomNumber = (int) (Math.random() * Math.pow(10, CAPTCHA_LENGTH));
+        return String.format("%0" + CAPTCHA_LENGTH + "d", randomNumber);
+    }
+
+    /**
+     * Generate verification code redis key
+     *
+     * @param value
+     * @return mobile:smscode:{value}
+     */
+    private String captchaRedisKey(Object value) {
+        return String.format("%s%s%s", MOBILE_SMSCODE_PREFIX, COLON, value);
+    }
+
+    /**
+     * Generate credential redis key
+     *
+     * @param value
+     * @return redis_user_token:{value}
+     */
+    private String tokenRedisKey(Object value) {
+        return String.format("%s%s%s", REDIS_USER_TOKEN, COLON, value);
+    }
+
+    /**
+     * Generate credential
+     *
+     * @return app.{UUID}
+     */
+    private String generateUserToken() {
+        return String.format("%s%s%s", TOKEN_USER_PREFIX, DOT, UUID.randomUUID());
+    }
+
+    /**
+     * Convert user object to user view object
+     *
+     * @param user user object
+     * @param userToken user view object
+     * @return converted user view object
+     */
+    private UsersVO convertToUsersVO(Users user, String userToken) {
+        UsersVO usersVO = new UsersVO();
+        BeanUtils.copyProperties(user, usersVO);
+        usersVO.setUserToken(userToken);
+        return usersVO;
     }
 }
