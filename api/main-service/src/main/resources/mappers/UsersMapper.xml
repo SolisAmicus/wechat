@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solisamicus.mapper.UsersMapper">
+
+    <resultMap id="BaseResultMap" type="com.solisamicus.pojo.Users">
+        <id column="id" property="id" />
+        <result column="wechat_num" property="wechatNum" />
+        <result column="wechat_num_img" property="wechatNumImg" />
+        <result column="mobile" property="mobile" />
+        <result column="nickname" property="nickname" />
+        <result column="real_name" property="realName" />
+        <result column="sex" property="sex" />
+        <result column="face" property="face" />
+        <result column="email" property="email" />
+        <result column="birthday" property="birthday" />
+        <result column="country" property="country" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="chat_bg" property="chatBg" />
+        <result column="friend_circle_bg" property="friendCircleBg" />
+        <result column="signature" property="signature" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, wechat_num, wechat_num_img, mobile, nickname, real_name, sex, face, email, birthday, country, province, city, district, chat_bg, friend_circle_bg, signature, created_time, updated_time
+    </sql>
+
+</mapper>

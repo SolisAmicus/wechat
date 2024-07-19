@@ -72,18 +72,6 @@ public class RedisOperator {
         redisTemplate.delete(keys);
     }
 
-    public void set(String key, String value) {
-        redisTemplate.opsForValue().set(key, value);
-    }
-
-    public void set(String key, String value, long timeout) {
-        redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.SECONDS);
-    }
-
-    public void setByDays(String key, String value, long days) {
-        redisTemplate.opsForValue().set(key, value, days, TimeUnit.DAYS);
-    }
-
     /**
      * Attempts to set the value of a key only if the key does not already exist.
      *
@@ -113,7 +101,7 @@ public class RedisOperator {
      * @param key   the key to set
      * @param value the value to set
      */
-    public void setOrUpdate(String key, String value) {
+    public void set(String key, String value) {
         redisTemplate.opsForValue().set(key, value);
     }
 
@@ -124,7 +112,7 @@ public class RedisOperator {
      * @param value   the value to set
      * @param seconds the time to live for the key, in seconds
      */
-    public void setOrUpdateWithTTL(String key, String value, Integer seconds) {
+    public void set(String key, String value, Integer seconds) {
         redisTemplate.opsForValue().set(key, value, seconds, TimeUnit.SECONDS);
     }
 

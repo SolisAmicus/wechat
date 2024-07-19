@@ -15,7 +15,6 @@ import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -38,7 +37,7 @@ public class PassPortController extends BaseInfoProperties {
         redis.setIfAbsentWithTTL(MOBILE_SMSCODE + ":" + IPUtil.getRequestIp(request), mobile, 60); // 有效验证码
         String captcha = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
         smsTask.sendSMSAsync(mobile, captcha);
-        redis.setOrUpdateWithTTL(MOBILE_SMSCODE + ":" + mobile, captcha, 5 * 60); // 过期验证码
+        redis.set(MOBILE_SMSCODE + ":" + mobile, captcha, 5 * 60); // 过期验证码
         return GraceJSONResult.ok();
     }
 

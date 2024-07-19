@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsersVO {
-
     private String id;
     private String wechatNum;
     private String wechatNumImg;
@@ -35,8 +34,8 @@ public class UsersVO {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonFormat(pattern = LocalDateUtils.DATE_PATTERN, timezone = LocalDateUtils.TIMEZONE_GMT8)
-    private LocalDate birthday;
 
+    private LocalDate birthday;
     private String country;
     private String province;
     private String city;
