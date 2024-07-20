@@ -21,4 +21,6 @@ public class Properties {
     public static final String REDIS_USER_ALREADY_UPDATE_WECHAT_NUM = "redis_user_already_update_wechat_num";
 
     public static  final  String FACE_DIRECTORY = "face"; // Directory name for face images
+
+    public static final String QRCODE_DIRECTORY = "qrcode"; // Directory name for qrcode images
 }

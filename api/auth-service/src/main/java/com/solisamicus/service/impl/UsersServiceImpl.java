@@ -3,6 +3,7 @@ package com.solisamicus.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.solisamicus.constants.Properties;
 import com.solisamicus.enums.Sex;
+import com.solisamicus.feign.FileMicroServiceFeign;
 import com.solisamicus.mapper.UsersMapper;
 import com.solisamicus.pojo.Users;
 import com.solisamicus.service.IUsersService;
@@ -23,7 +24,7 @@ public class UsersServiceImpl extends Properties implements IUsersService {
 
     private static final String USER_FACE = "https://s2.loli.net/2024/07/01/m4prdh51voRDCQj.png";
     private static final String USER_FRIEND_CIRCLE_BG = "https://s2.loli.net/2024/07/17/bMTV9s8ZPKRvHW6.png";
-    private static final String USER_CHAT_BG="https://s2.loli.net/2024/07/17/j4H5PkfRi87ScKA.png";
+    private static final String USER_CHAT_BG = "https://s2.loli.net/2024/07/17/j4H5PkfRi87ScKA.png";
 
 
     @Override
@@ -38,19 +39,20 @@ public class UsersServiceImpl extends Properties implements IUsersService {
     @Override
     public Users createUsers(String mobile, String nickname) {
         Users user = new Users();
-        user.setWechatNum(String.format("wx%s", UUID.randomUUID().toString().replaceAll("-", "").substring(0, 16)));
-        user.setWechatNumImg("");
+        String wechatNum = String.format("wx%s", UUID.randomUUID().toString().replaceAll("-", "").substring(0, 16));
+        user.setWechatNum(wechatNum);
+        user.setWechatNumImg(getQrCodeUrl(wechatNum));
         user.setMobile(mobile);
         if (StringUtils.isBlank(nickname)) {
             user.setNickname("用户" + MaskUtil.commonDisplay(mobile));
-        }else {
+        } else {
             user.setNickname(nickname);
         }
         user.setRealName("");
         user.setSex(Sex.secret.type);
         user.setFace(USER_FACE);
         user.setEmail("");
-        user.setBirthday(LocalDateUtils.parseLocalDate("1980-01-01",LocalDateUtils.DATE_PATTERN));
+        user.setBirthday(LocalDateUtils.parseLocalDate("1980-01-01", LocalDateUtils.DATE_PATTERN));
         user.setCountry("");
         user.setProvince("");
         user.setCity("");
@@ -62,5 +64,12 @@ public class UsersServiceImpl extends Properties implements IUsersService {
         user.setUpdatedTime(LocalDateTime.now());
         usersMapper.insert(user);
         return user;
+    }
+
+    @Autowired
+    private FileMicroServiceFeign fileMicroServiceFeign;
+
+    private String getQrCodeUrl(String wechatNumber) {
+        return fileMicroServiceFeign.generatorQrCode("temp", wechatNumber);
     }
 }

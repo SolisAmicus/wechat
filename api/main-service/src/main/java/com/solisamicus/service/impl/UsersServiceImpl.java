@@ -2,6 +2,7 @@ package com.solisamicus.service.impl;
 
 
 import com.solisamicus.exceptions.GraceException;
+import com.solisamicus.feign.FileMicroServiceFeign;
 import com.solisamicus.grace.result.ResponseStatusEnum;
 import com.solisamicus.mapper.UsersMapper;
 import com.solisamicus.pojo.Users;
@@ -31,13 +32,17 @@ public class UsersServiceImpl implements IUsersService {
     public void modifyUserInfo(ModifyBO UsersBO) {
         Users pendingUser = new Users();
         String userId = UsersBO.getUserId();
+        if (StringUtils.isBlank(userId)) {
+            GraceException.display(ResponseStatusEnum.USER_INFO_UPDATED_ERROR);
+        }
         String wechatNum = UsersBO.getWechatNum();
         if (StringUtils.isNotBlank(wechatNum)) {
             String isExist = redis.get(REDIS_USER_ALREADY_UPDATE_WECHAT_NUM + ":" + userId);
             if (StringUtils.isNotBlank(isExist)) {
                 GraceException.display(ResponseStatusEnum.WECHAT_NUM_ALREADY_MODIFIED_ERROR);
-            }else{
+            } else {
                 redis.set(REDIS_USER_ALREADY_UPDATE_WECHAT_NUM + ":" + userId, userId, 31536000);
+                pendingUser.setWechatNumImg(getQrCodeUrl(userId,wechatNum));
             }
         }
         pendingUser.setId(userId);
@@ -49,5 +54,12 @@ public class UsersServiceImpl implements IUsersService {
     @Override
     public Users getUserById(String userId) {
         return usersMapper.selectById(userId);
+    }
+
+    @Autowired
+    private FileMicroServiceFeign fileMicroServiceFeign;
+
+    private String getQrCodeUrl(String userId, String wechatNumber) {
+        return fileMicroServiceFeign.generatorQrCode(userId, wechatNumber);
     }
 }
