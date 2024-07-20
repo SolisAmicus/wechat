@@ -1,6 +1,6 @@
 package com.solisamicus.utils;
 
-public class DesensitizationUtil {
+public class MaskUtil {
 
     private static final int MASK_SIZE = 6;
     private static final String MASK_SYMBOL = "*";

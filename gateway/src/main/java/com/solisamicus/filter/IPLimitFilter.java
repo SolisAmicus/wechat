@@ -1,10 +1,11 @@
 package com.solisamicus.filter;
 
+import com.solisamicus.utils.RedisOperator;
 import com.solisamicus.utils.RenderErrorUtils;
 import lombok.extern.slf4j.Slf4j;
-import com.solisamicus.base.BaseInfoProperties;
 import com.solisamicus.grace.result.ResponseStatusEnum;
-import com.solisamicus.utils.IPUtil;
+import com.solisamicus.utils.IPUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -18,7 +19,7 @@ import reactor.core.publisher.Mono;
 @Component
 @RefreshScope
 @Slf4j
-public class IPLimitFilter extends BaseInfoProperties implements GlobalFilter, Ordered {
+public class IPLimitFilter implements GlobalFilter, Ordered {
     @Value("${blackIp.continueCounts}")
     private Integer continueCounts;
 
@@ -28,15 +29,18 @@ public class IPLimitFilter extends BaseInfoProperties implements GlobalFilter, O
     @Value("${blackIp.limitTimes}")
     private Integer limitTimes;
 
+    @Autowired
+    private RedisOperator redis;
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("continueCounts: {},timeInterval: {},limitTimes: {}", continueCounts,timeInterval,limitTimes);
+        log.info("continueCounts: {},timeInterval: {},limitTimes: {}", continueCounts, timeInterval, limitTimes);
         return doLimit(exchange, chain);
     }
 
     public Mono<Void> doLimit(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-        String ip = IPUtil.getIP(request);
+        String ip = IPUtils.getIP(request);
         final String ipRedisKey = "gateway-ip:" + ip;
         final String ipRedisLimitKey = "gateway-ip:limit:" + ip;
         long limitLeftTimes = redis.ttl(ipRedisLimitKey);

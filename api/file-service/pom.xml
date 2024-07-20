@@ -13,6 +13,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.solisamicus</groupId>
+            <artifactId>base-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
         </dependency>

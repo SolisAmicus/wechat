@@ -1,37 +1,54 @@
 package com.solisamicus.controller;
 
-import com.solisamicus.base.BaseInfoProperties;
 import com.solisamicus.grace.result.GraceJSONResult;
 import com.solisamicus.pojo.Users;
 import com.solisamicus.pojo.bo.ModifyBO;
 import com.solisamicus.pojo.vo.UsersVO;
 import com.solisamicus.service.IUsersService;
+import com.solisamicus.utils.RedisOperator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.solisamicus.constants.Properties.REDIS_USER_TOKEN;
+import static com.solisamicus.constants.Properties.TOKEN_USER_PREFIX;
 import static com.solisamicus.constants.Symbols.COLON;
 import static com.solisamicus.constants.Symbols.DOT;
 
 @RestController
 @RequestMapping("userinfo")
-public class UserController extends BaseInfoProperties {
+public class UserController{
     @Autowired
     private IUsersService usersService;
 
+    @Autowired
+    private RedisOperator redis;
+
     @PostMapping("modify")
-    public GraceJSONResult modify(@RequestBody ModifyBO modifyBO) {
-        usersService.modifyUserInfo(modifyBO);
-        return GraceJSONResult.ok(getUserInfoById(modifyBO.getUserId(),true));
+    public GraceJSONResult modify(@RequestBody ModifyBO UsersBO) {
+        usersService.modifyUserInfo(UsersBO);
+        UsersVO usersVO = getUserInfoById(UsersBO.getUserId(), true);
+        return GraceJSONResult.ok(usersVO);
     }
 
     @PostMapping("get")
     public GraceJSONResult get(@RequestParam("userId") String userId) {
-        return GraceJSONResult.ok(getUserInfoById(userId, false));
+        UsersVO usersVO = getUserInfoById(userId, false);
+        return GraceJSONResult.ok(usersVO);
     }
 
+    @PostMapping("updateFace")
+    public GraceJSONResult updateFace(@RequestParam("userId") String userId,
+                                  @RequestParam("face") String face) {
+        ModifyBO UsersBO = new ModifyBO();
+        UsersBO.setUserId(userId);
+        UsersBO.setFace(face);
+        usersService.modifyUserInfo(UsersBO);
+        UsersVO usersVO = getUserInfoById(UsersBO.getUserId(), true);
+        return GraceJSONResult.ok(usersVO);
+    }
 
     private UsersVO getUserInfoById(String userId, boolean needToken) {
         Users latestUser = usersService.getUserById(userId);

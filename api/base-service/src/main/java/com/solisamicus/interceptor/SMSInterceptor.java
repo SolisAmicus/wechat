@@ -1,20 +1,25 @@
 package com.solisamicus.interceptor;
 
-import com.solisamicus.base.BaseInfoProperties;
 import com.solisamicus.exceptions.GraceException;
 import com.solisamicus.grace.result.ResponseStatusEnum;
-import com.solisamicus.utils.IPUtil;
+import com.solisamicus.utils.IPUtils;
+import com.solisamicus.utils.RedisOperator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import static com.solisamicus.constants.Properties.MOBILE_SMSCODE_PREFIX;
 import static com.solisamicus.constants.Symbols.COLON;
 
-public class SMSInterceptor extends BaseInfoProperties implements HandlerInterceptor {
+public class SMSInterceptor implements HandlerInterceptor {
+    @Autowired
+    private RedisOperator redis;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        boolean isExist = redis.keyIsExist(String.format("%s%s%s", MOBILE_SMSCODE_PREFIX, COLON, IPUtil.getRequestIp(request)));
+        boolean isExist = redis.keyIsExist(String.format("%s%s%s", MOBILE_SMSCODE_PREFIX, COLON, IPUtils.getRequestIp(request)));
         if (isExist) {
             GraceException.display(ResponseStatusEnum.SMS_NEED_WAIT_ERROR);
             return false;

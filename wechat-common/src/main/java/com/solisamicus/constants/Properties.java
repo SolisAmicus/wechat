@@ -1,12 +1,6 @@
-package com.solisamicus.base;
+package com.solisamicus.constants;
 
-import com.solisamicus.utils.RedisOperator;
-import org.springframework.beans.factory.annotation.Autowired;
-
-public class BaseInfoProperties {
-
-    @Autowired
-    public RedisOperator redis;
+public class Properties {
 
     public static final String HEADER_USER_ID = "headerUserId";
 
@@ -25,4 +19,6 @@ public class BaseInfoProperties {
     public static final Integer CAPTCHA_EXPIRATION_SECONDS = 300; //  Verification code expiration period
 
     public static final String REDIS_USER_ALREADY_UPDATE_WECHAT_NUM = "redis_user_already_update_wechat_num";
+
+    public static  final  String FACE_DIRECTORY = "face"; // Directory name for face images
 }

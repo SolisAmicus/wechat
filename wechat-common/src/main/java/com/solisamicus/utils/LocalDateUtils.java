@@ -11,171 +11,49 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Java8 LocalDate 日期时间 工具类
- */
 public class LocalDateUtils {
-
-    /**
-     * 显示年月日时分秒，例如 2015-08-11 09:51:53.
-     */
     public static final String DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
     public static final String DATETIME_PATTERN_2 = "yyyy/MM/dd HH:mm:ss";
     public static final String DATETIME_PATTERN_3 = "yyMMdd";
-
-    /**
-     * 仅显示年月日，例如 2015-08-11.
-     */
     public static final String DATE_PATTERN = "yyyy-MM-dd";
-
-    /**
-     * 仅显示年月，例如 2015-08.
-     */
     public static final String DATE_PATTERN_SHORT = "yyyy-MM";
-
-    /**
-     * 仅显示时分秒，例如 09:51:53.
-     */
     public static final String TIME_PATTERN = "HH:mm:ss";
-
     public static final String TIMEZONE_GMT8 = "GMT+8";
-
-    /**
-     * 显示年月日时分秒(无符号)，例如 20150811095153.
-     */
     public static final String UNSIGNED_DATETIME_PATTERN = "yyyyMMddHHmmss";
-
-    /**
-     * 仅显示年月日(无符号)，例如 20150811.
-     */
     public static final String UNSIGNED_DATE_PATTERN = "yyyyMMdd";
-
     public static final String DATE_DAY_PATTERN_SHORT = "MM-dd";
-
     public static final String YEAR_DATE_PATTERN = "yyyy";
-
-    /**
-     * 春天;
-     */
     public static final Integer SPRING = 1;
-
-    /**
-     * 夏天;
-     */
     public static final Integer SUMMER = 2;
-
-    /**
-     * 秋天;
-     */
     public static final Integer AUTUMN = 3;
-
-    /**
-     * 冬天;
-     */
     public static final Integer WINTER = 4;
-
-    /**
-     * 星期日;
-     */
     public static final String SUNDAY = "星期日";
-
-    /**
-     * 星期一;
-     */
     public static final String MONDAY = "星期一";
-
-    /**
-     * 星期二;
-     */
     public static final String TUESDAY = "星期二";
-
-    /**
-     * 星期三;
-     */
     public static final String WEDNESDAY = "星期三";
-
-    /**
-     * 星期四;
-     */
     public static final String THURSDAY = "星期四";
-
-    /**
-     * 星期五;
-     */
     public static final String FRIDAY = "星期五";
-
-    /**
-     * 星期六;
-     */
     public static final String SATURDAY = "星期六";
-
-    /**
-     * 年
-     */
     private static final String YEAR = "year";
-
-    /**
-     * 月
-     */
     private static final String MONTH = "month";
-
-    /**
-     * 周
-     */
     private static final String WEEK = "week";
-
-    /**
-     * 日
-     */
     private static final String DAY = "day";
-
-    /**
-     * 时
-     */
     private static final String HOUR = "hour";
-
-    /**
-     * 分
-     */
     private static final String MINUTE = "minute";
-
-    /**
-     * 秒
-     */
     private static final String SECOND = "second";
 
-    /**
-     * 获取当前日期和时间字符串.
-     *
-     * @return String 日期时间字符串，例如 2015-08-11 09:51:53
-     */
     public static String getLocalDateTimeStr() {
         return format(LocalDateTime.now(), DATETIME_PATTERN);
     }
 
-    /**
-     * 获取当前日期字符串.
-     *
-     * @return String 日期字符串，例如2023-12-25
-     */
     public static String getLocalDateStr() {
         return format(LocalDate.now(), DATE_PATTERN);
     }
 
-    /**
-     * 获取当前时间字符串.
-     *
-     * @return String 时间字符串，例如 09:51:53
-     */
     public static String getLocalTimeStr() {
         return format(LocalTime.now(), TIME_PATTERN);
     }
 
-    /**
-     * 获取当前星期字符串.
-     *
-     * @return String 当前星期字符串，例如 星期二
-     */
     public static String getDayOfWeekStr() {
         return format(LocalDate.now(), "E");
     }
@@ -304,6 +182,7 @@ public class LocalDateUtils {
 
     /**
      * 获得今天的日期
+     *
      * @return
      */
     public static String getTodayStr() {
@@ -316,6 +195,7 @@ public class LocalDateUtils {
 
     /**
      * 获得明天的日期
+     *
      * @return
      */
     public static LocalDate getTomorrow() {
@@ -324,6 +204,7 @@ public class LocalDateUtils {
 
     /**
      * 获得昨天的日期
+     *
      * @return
      */
     public static LocalDate getYesterday() {
@@ -332,6 +213,7 @@ public class LocalDateUtils {
 
     /**
      * 根据时间单位来获得未来的日期时间
+     *
      * @param times
      * @param chronoUnit
      * @return
@@ -717,7 +599,6 @@ public class LocalDateUtils {
      * 2020-12-11
      * 2020-12-12
      * 2020-12-13
-     *
      */
 
     public static void main(String[] args) {

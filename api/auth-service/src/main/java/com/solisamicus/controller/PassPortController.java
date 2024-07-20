@@ -1,6 +1,5 @@
 package com.solisamicus.controller;
 
-import com.solisamicus.base.BaseInfoProperties;
 import com.solisamicus.grace.result.GraceJSONResult;
 import com.solisamicus.grace.result.ResponseStatusEnum;
 import com.solisamicus.pojo.Users;
@@ -9,7 +8,8 @@ import com.solisamicus.pojo.bo.RegisterBO;
 import com.solisamicus.pojo.vo.UsersVO;
 import com.solisamicus.service.IUsersService;
 import com.solisamicus.task.SMSTask;
-import com.solisamicus.utils.IPUtil;
+import com.solisamicus.utils.IPUtils;
+import com.solisamicus.utils.RedisOperator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -19,14 +19,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.solisamicus.constants.Properties.*;
 import static com.solisamicus.constants.Symbols.COLON;
 import static com.solisamicus.constants.Symbols.DOT;
 
 @RestController
 @RequestMapping("passport")
-public class PassPortController extends BaseInfoProperties {
+public class PassPortController{
     @Autowired
     private SMSTask smsTask;
+
+    @Autowired
+    private RedisOperator redis;
 
     @Autowired
     private IUsersService usersService;
@@ -37,7 +41,7 @@ public class PassPortController extends BaseInfoProperties {
             return GraceJSONResult.error();
         }
 
-        String ip = IPUtil.getRequestIp(request);
+        String ip = IPUtils.getRequestIp(request);
         redis.setIfAbsentWithTTL(captchaRedisKey(ip), mobile, CAPTCHA_VALIDITY_SECONDS); // <keyForIp, mobile>
 
         String captcha = generateCaptcha();

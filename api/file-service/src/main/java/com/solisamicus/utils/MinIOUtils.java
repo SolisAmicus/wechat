@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.solisamicus.constants.Symbols.SEPARATOR;
+import static com.solisamicus.constants.Symbols.SLASH;
 
 @Slf4j
 public class MinIOUtils {
@@ -71,10 +70,20 @@ public class MinIOUtils {
     /**
      * Get the base URL for file uploads.
      *
-     * @return the base URL
+     * @return the base URL including the endpoint and bucket name
      */
-    public static String getBasisUrl() {
-        return String.format("%s%s%s%s", endpoint, SEPARATOR, bucketName, SEPARATOR); // http://127.0.0.1:9000/wechat/
+    public static String getBaseUrl() {
+        return String.format("%s%s%s%s", endpoint, SLASH, bucketName, SLASH); // http://127.0.0.1:9000/wechat/
+    }
+
+    /**
+     * Get the full URL for accessing a specific file.
+     *
+     * @param filename the name of the file to access
+     * @return the full URL to access the file
+     */
+    public static String getFileAccessUrl(String filename) {
+        return String.format("%s%s%s%s%s", fileHost, SLASH, bucketName, SLASH, filename); // http://127.0.0.1:9000/wechat/face\1813476981327425538\1813476981327425538.jpg
     }
 
     /**
@@ -187,12 +196,12 @@ public class MinIOUtils {
      * Get a list of all objects in a bucket by prefix.
      *
      * @param bucketName the name of the bucket
-     * @param prefix the prefix of the objects
-     * @param recursive whether to list objects recursively
+     * @param prefix     the prefix of the objects
+     * @param recursive  whether to list objects recursively
      * @return a list of items
      * @throws Exception if an error occurs
      */
-    public static List<Item> getAllObjectsByPrefix(String bucketName,String prefix,boolean recursive) throws Exception {
+    public static List<Item> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive) throws Exception {
         List<Item> list = new ArrayList<>();
         Iterable<Result<Item>> objectsIterator = minioClient.listObjects(
                 ListObjectsArgs.builder().bucket(bucketName).prefix(prefix).recursive(recursive).build());
@@ -221,8 +230,8 @@ public class MinIOUtils {
      *
      * @param bucketName the name of the bucket
      * @param objectName the name of the object
-     * @param offset the starting byte position
-     * @param length the length of bytes to read
+     * @param offset     the starting byte position
+     * @param length     the length of bytes to read
      * @return the InputStream of the object
      * @throws Exception if an error occurs
      */
@@ -240,8 +249,8 @@ public class MinIOUtils {
      * List objects in a bucket.
      *
      * @param bucketName the name of the bucket
-     * @param prefix the prefix of the objects
-     * @param recursive whether to list objects recursively
+     * @param prefix     the prefix of the objects
+     * @param recursive  whether to list objects recursively
      * @return an Iterable of Result<Item>
      */
     public static Iterable<Result<Item>> listObjects(String bucketName, String prefix, boolean recursive) {
@@ -257,9 +266,9 @@ public class MinIOUtils {
     /**
      * Upload a file using MultipartFile.
      *
-     * @param bucketName the name of the bucket
-     * @param file the MultipartFile to upload
-     * @param objectName the name of the object
+     * @param bucketName  the name of the bucket
+     * @param file        the MultipartFile to upload
+     * @param objectName  the name of the object
      * @param contentType the content type of the file
      * @return an ObjectWriteResponse
      * @throws Exception if an error occurs
@@ -281,8 +290,8 @@ public class MinIOUtils {
      *
      * @param bucketName the name of the bucket
      * @param objectName the name of the object
-     * @param fileName the local file path
-     * @param needUrl whether a URL is needed
+     * @param fileName   the local file path
+     * @param needUrl    whether a URL is needed
      * @return the URL of the uploaded file if needed, otherwise an empty string
      * @throws Exception if an error occurs
      */
@@ -294,7 +303,7 @@ public class MinIOUtils {
                         .filename(fileName)
                         .build());
         if (needUrl) {
-            return String.format("%s%s%s%s%s", fileHost, SEPARATOR, bucketName, SEPARATOR, objectName);
+            return String.format("%s%s%s%s%s", fileHost, SLASH, bucketName, SLASH, objectName);
         }
         return "";
     }
@@ -302,8 +311,8 @@ public class MinIOUtils {
     /**
      * Upload a file using InputStream.
      *
-     * @param bucketName the name of the bucket
-     * @param objectName the name of the object
+     * @param bucketName  the name of the bucket
+     * @param objectName  the name of the object
      * @param inputStream the InputStream of the file
      * @return an ObjectWriteResponse
      * @throws Exception if an error occurs
@@ -320,10 +329,10 @@ public class MinIOUtils {
     /**
      * Upload a file using InputStream.
      *
-     * @param bucketName the name of the bucket
-     * @param objectName the name of the object
+     * @param bucketName  the name of the bucket
+     * @param objectName  the name of the object
      * @param inputStream the InputStream of the file
-     * @param needUrl whether a URL is needed
+     * @param needUrl     whether a URL is needed
      * @return the URL of the uploaded file if needed, otherwise an empty string
      * @throws Exception if an error occurs
      */
@@ -335,7 +344,7 @@ public class MinIOUtils {
                         .stream(inputStream, inputStream.available(), -1)
                         .build());
         if (needUrl) {
-            return String.format("%s%s%s%s%s", fileHost, SEPARATOR, bucketName, SEPARATOR, objectName);
+            return String.format("%s%s%s%s%s", fileHost, SLASH, bucketName, SLASH, objectName);
         }
         return "";
     }
@@ -376,8 +385,8 @@ public class MinIOUtils {
     /**
      * Copy a file.
      *
-     * @param bucketName the name of the source bucket
-     * @param objectName the name of the source object
+     * @param bucketName    the name of the source bucket
+     * @param objectName    the name of the source object
      * @param srcBucketName the name of the destination bucket
      * @param srcObjectName the name of the destination object
      * @return an ObjectWriteResponse
@@ -411,7 +420,7 @@ public class MinIOUtils {
      * Delete multiple files.
      *
      * @param bucketName the name of the bucket
-     * @param keys the list of object names to delete
+     * @param keys       the list of object names to delete
      */
     public static void removeFiles(String bucketName, List<String> keys) {
         List<DeleteObject> objects = new LinkedList<>();
@@ -428,7 +437,7 @@ public class MinIOUtils {
      *
      * @param bucketName the name of the bucket
      * @param objectName the name of the object
-     * @param expires the expiration time in seconds (<= 7)
+     * @param expires    the expiration time in seconds (<= 7)
      * @return the presigned URL
      * @throws Exception if an error occurs
      */
@@ -463,10 +472,9 @@ public class MinIOUtils {
      *
      * @param str the URL-encoded string
      * @return the decoded string
-     * @throws UnsupportedEncodingException if the encoding is not supported
      */
-    public static String getUtf8ByURLDecoder(String str) throws UnsupportedEncodingException {
+    public static String getUtf8ByURLDecoder(String str) {
         String url = str.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
-        return URLDecoder.decode(url, StandardCharsets.UTF_8.name());
+        return URLDecoder.decode(url, StandardCharsets.UTF_8);
     }
 }

@@ -1,8 +1,8 @@
 package com.solisamicus.filter;
 
-import com.solisamicus.base.BaseInfoProperties;
 import com.solisamicus.config.ExcludeUrlProperties;
 import com.solisamicus.grace.result.ResponseStatusEnum;
+import com.solisamicus.utils.RedisOperator;
 import com.solisamicus.utils.RenderErrorUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -19,11 +19,16 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static com.solisamicus.constants.Properties.*;
+
 @Component
 @Slf4j
-public class SecurityTokenFilter extends BaseInfoProperties implements GlobalFilter, Ordered {
+public class SecurityTokenFilter implements GlobalFilter, Ordered {
     @Autowired
     private ExcludeUrlProperties excludeUrlProperties;
+
+    @Autowired
+    private RedisOperator redis;
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 

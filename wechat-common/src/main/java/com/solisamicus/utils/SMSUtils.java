@@ -5,6 +5,7 @@ import com.aliyun.auth.credentials.provider.StaticCredentialProvider;
 import com.aliyun.sdk.service.dysmsapi20170525.models.*;
 import com.aliyun.sdk.service.dysmsapi20170525.*;
 import com.google.gson.Gson;
+import com.solisamicus.config.AliyunSMSProperties;
 import darabonba.core.client.ClientOverrideConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

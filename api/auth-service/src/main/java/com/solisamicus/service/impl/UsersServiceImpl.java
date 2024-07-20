@@ -1,12 +1,12 @@
 package com.solisamicus.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.solisamicus.base.BaseInfoProperties;
+import com.solisamicus.constants.Properties;
 import com.solisamicus.enums.Sex;
 import com.solisamicus.mapper.UsersMapper;
 import com.solisamicus.pojo.Users;
 import com.solisamicus.service.IUsersService;
-import com.solisamicus.utils.DesensitizationUtil;
+import com.solisamicus.utils.MaskUtil;
 import com.solisamicus.utils.LocalDateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
-public class UsersServiceImpl extends BaseInfoProperties implements IUsersService {
+public class UsersServiceImpl extends Properties implements IUsersService {
     @Autowired
     private UsersMapper usersMapper;
 
@@ -42,7 +42,7 @@ public class UsersServiceImpl extends BaseInfoProperties implements IUsersServic
         user.setWechatNumImg("");
         user.setMobile(mobile);
         if (StringUtils.isBlank(nickname)) {
-            user.setNickname("用户" + DesensitizationUtil.commonDisplay(mobile));
+            user.setNickname("用户" + MaskUtil.commonDisplay(mobile));
         }else {
             user.setNickname(nickname);
         }

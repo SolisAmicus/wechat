@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * IP 工具类: 从 HttpServletRequest 和 ServerHttpRequest 中获取客户端IP地址
  */
-public class IPUtil {
+public class IPUtils {
     // 未知 IP 地址常量
     private static final String IP_UNKNOWN = "unknown";
     // 本地 IP 地址常量

@@ -1,7 +1,6 @@
 package com.solisamicus.utils;
 
 import com.google.gson.Gson;
-import com.solisamicus.base.BaseInfoProperties;
 import com.solisamicus.grace.result.GraceJSONResult;
 import com.solisamicus.grace.result.ResponseStatusEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 @Slf4j
 @RefreshScope
-public class RenderErrorUtils extends BaseInfoProperties {
+public class RenderErrorUtils {
     public static Mono<Void> display(ServerWebExchange exchange, ResponseStatusEnum statusEnum) {
         ServerHttpResponse response = exchange.getResponse();
         GraceJSONResult jsonResult = GraceJSONResult.exception(statusEnum);
