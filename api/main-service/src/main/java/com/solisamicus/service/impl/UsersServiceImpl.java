@@ -6,7 +6,7 @@ import com.solisamicus.feign.FileMicroServiceFeign;
 import com.solisamicus.grace.result.ResponseStatusEnum;
 import com.solisamicus.mapper.UsersMapper;
 import com.solisamicus.pojo.Users;
-import com.solisamicus.pojo.bo.ModifyBO;
+import com.solisamicus.pojo.bo.ModifyUserBO;
 import com.solisamicus.service.IUsersService;
 import com.solisamicus.utils.RedisOperator;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +29,7 @@ public class UsersServiceImpl implements IUsersService {
 
     @Transactional
     @Override
-    public void modifyUserInfo(ModifyBO UsersBO) {
+    public void modifyUserInfo(ModifyUserBO UsersBO) {
         Users pendingUser = new Users();
         String userId = UsersBO.getUserId();
         if (StringUtils.isBlank(userId)) {

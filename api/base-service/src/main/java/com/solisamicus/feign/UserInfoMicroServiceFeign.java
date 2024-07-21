@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface UserInfoMicroServiceFeign {
     @PostMapping("/userinfo/updateFace")
     GraceJSONResult updateFace(@RequestParam("userId") String userId,
-                                      @RequestParam("face") String face);
+                               @RequestParam("face") String face);
 
     @PostMapping("/userinfo/updateFriendCircleBg")
-    GraceJSONResult updateFriendCircleBg(
-            @RequestParam("userId") String userId,
-            @RequestParam("friendCircleBg") String friendCircleBg);
+    GraceJSONResult updateFriendCircleBg(@RequestParam("userId") String userId,
+                                         @RequestParam("friendCircleBg") String friendCircleBg);
 
     @PostMapping("/userinfo/updateChatBg")
-    GraceJSONResult updateChatBg(
-            @RequestParam("userId") String userId,
-            @RequestParam("chatBg") String chatBg);
+    GraceJSONResult updateChatBg(@RequestParam("userId") String userId,
+                                 @RequestParam("chatBg") String chatBg);
 }

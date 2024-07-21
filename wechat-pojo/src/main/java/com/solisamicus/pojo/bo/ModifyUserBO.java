@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ModifyBO {
+public class ModifyUserBO {
     private String userId;
     private String face;
     private Integer sex;

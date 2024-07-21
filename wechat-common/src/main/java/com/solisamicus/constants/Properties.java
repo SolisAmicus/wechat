@@ -20,7 +20,11 @@ public class Properties {
 
     public static final String REDIS_USER_ALREADY_UPDATE_WECHAT_NUM = "redis_user_already_update_wechat_num";
 
-    public static  final  String FACE_DIRECTORY = "face"; // Directory name for face images
+    public static final String FACE_DIRECTORY = "face"; // Directory name for face images
 
     public static final String QRCODE_DIRECTORY = "qrcode"; // Directory name for qrcode images
+
+    public static final String FRIEND_CIRCLE_BG_DIRECTORY = "friend circle background"; // Directory name for friend circle background images
+
+    public static final String CHAT_BG_DIRECTORY = "chat background"; // Directory name for friend chat background images
 }

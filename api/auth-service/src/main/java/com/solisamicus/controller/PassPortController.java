@@ -5,7 +5,7 @@ import com.solisamicus.grace.result.ResponseStatusEnum;
 import com.solisamicus.pojo.Users;
 import com.solisamicus.pojo.bo.LoginBO;
 import com.solisamicus.pojo.bo.RegisterBO;
-import com.solisamicus.pojo.vo.UsersVO;
+import com.solisamicus.pojo.vo.UserVO;
 import com.solisamicus.service.IUsersService;
 import com.solisamicus.task.SMSTask;
 import com.solisamicus.utils.IPUtils;
@@ -77,8 +77,8 @@ public class PassPortController{
         // String keyForUserDevice = tokenRedisKey(uToken);
         // redis.set(keyForUserDevice,uId);
 
-        UsersVO usersVO = convertToUsersVO(user, uToken);
-        return GraceJSONResult.ok(usersVO);
+        UserVO userVO = convertToUserVO(user, uToken);
+        return GraceJSONResult.ok(userVO);
     }
 
     @PostMapping("login")
@@ -103,8 +103,8 @@ public class PassPortController{
         String uToken = generateUserToken();
         redis.set(tokenRedisKey(user.getId()), uToken);
 
-        UsersVO usersVO = convertToUsersVO(user, uToken);
-        return GraceJSONResult.ok(usersVO);
+        UserVO userVO = convertToUserVO(user, uToken);
+        return GraceJSONResult.ok(userVO);
     }
 
     @PostMapping("registOrLogin")
@@ -132,8 +132,8 @@ public class PassPortController{
         redis.set(tokenRedisKey(user.getId()), uToken);
 
 
-        UsersVO usersVO = convertToUsersVO(user, uToken);
-        return GraceJSONResult.ok(usersVO);
+        UserVO userVO = convertToUserVO(user, uToken);
+        return GraceJSONResult.ok(userVO);
     }
 
     @PostMapping("logout")
@@ -189,10 +189,10 @@ public class PassPortController{
      * @param userToken user view object
      * @return converted user view object
      */
-    private UsersVO convertToUsersVO(Users user, String userToken) {
-        UsersVO usersVO = new UsersVO();
-        BeanUtils.copyProperties(user, usersVO);
-        usersVO.setUserToken(userToken);
-        return usersVO;
+    private UserVO convertToUserVO(Users user, String userToken) {
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        userVO.setUserToken(userToken);
+        return userVO;
     }
 }

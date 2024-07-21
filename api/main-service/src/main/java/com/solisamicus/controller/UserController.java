@@ -2,8 +2,8 @@ package com.solisamicus.controller;
 
 import com.solisamicus.grace.result.GraceJSONResult;
 import com.solisamicus.pojo.Users;
-import com.solisamicus.pojo.bo.ModifyBO;
-import com.solisamicus.pojo.vo.UsersVO;
+import com.solisamicus.pojo.bo.ModifyUserBO;
+import com.solisamicus.pojo.vo.UserVO;
 import com.solisamicus.service.IUsersService;
 import com.solisamicus.utils.RedisOperator;
 import org.springframework.beans.BeanUtils;
@@ -27,39 +27,61 @@ public class UserController{
     private RedisOperator redis;
 
     @PostMapping("modify")
-    public GraceJSONResult modify(@RequestBody ModifyBO UsersBO) {
+    public GraceJSONResult modify(@RequestBody ModifyUserBO UsersBO) {
         usersService.modifyUserInfo(UsersBO);
-        UsersVO usersVO = getUserInfoById(UsersBO.getUserId(), true);
-        return GraceJSONResult.ok(usersVO);
+        UserVO userVO = getUserInfoById(UsersBO.getUserId(), true);
+        return GraceJSONResult.ok(userVO);
     }
 
     @PostMapping("get")
     public GraceJSONResult get(@RequestParam("userId") String userId) {
-        UsersVO usersVO = getUserInfoById(userId, false);
-        return GraceJSONResult.ok(usersVO);
+        UserVO userVO = getUserInfoById(userId, false);
+        return GraceJSONResult.ok(userVO);
     }
 
     @PostMapping("updateFace")
     public GraceJSONResult updateFace(@RequestParam("userId") String userId,
-                                  @RequestParam("face") String face) {
-        ModifyBO UsersBO = new ModifyBO();
+                                      @RequestParam("face") String face) {
+        ModifyUserBO UsersBO = new ModifyUserBO();
         UsersBO.setUserId(userId);
         UsersBO.setFace(face);
         usersService.modifyUserInfo(UsersBO);
-        UsersVO usersVO = getUserInfoById(UsersBO.getUserId(), true);
-        return GraceJSONResult.ok(usersVO);
+        UserVO userVO = getUserInfoById(UsersBO.getUserId(), true);
+        return GraceJSONResult.ok(userVO);
     }
 
-    private UsersVO getUserInfoById(String userId, boolean needToken) {
+    @PostMapping("updateFriendCircleBg")
+    public GraceJSONResult updateFriendCircleBg(@RequestParam("userId") String userId,
+                                                @RequestParam("friendCircleBg") String friendCircleBg) {
+        ModifyUserBO userBO = new ModifyUserBO();
+        userBO.setUserId(userId);
+        userBO.setFriendCircleBg(friendCircleBg);
+        usersService.modifyUserInfo(userBO);
+        UserVO userVO = getUserInfoById(userBO.getUserId(), true);
+        return GraceJSONResult.ok(userVO);
+    }
+
+    @PostMapping("updateChatBg")
+    public GraceJSONResult updateChatBg(@RequestParam("userId") String userId,
+                                        @RequestParam("chatBg") String chatBg) {
+        ModifyUserBO userBO = new ModifyUserBO();
+        userBO.setUserId(userId);
+        userBO.setChatBg(chatBg);
+        usersService.modifyUserInfo(userBO);
+        UserVO userVO = getUserInfoById(userBO.getUserId(), true);
+        return GraceJSONResult.ok(userVO);
+    }
+
+    private UserVO getUserInfoById(String userId, boolean needToken) {
         Users latestUser = usersService.getUserById(userId);
-        UsersVO usersVO = new UsersVO();
-        BeanUtils.copyProperties(latestUser, usersVO);
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(latestUser, userVO);
         if (needToken) {
             String uToken = generateUserToken();
             redis.set(tokenRedisKey(userId), uToken);
-            usersVO.setUserToken(uToken);
+            userVO.setUserToken(uToken);
         }
-        return usersVO;
+        return userVO;
     }
 
     /**

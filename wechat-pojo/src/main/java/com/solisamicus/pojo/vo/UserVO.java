@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsersVO {
+public class UserVO {
     private String id;
     private String wechatNum;
     private String wechatNumImg;
