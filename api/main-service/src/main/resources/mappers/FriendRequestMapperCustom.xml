@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solisamicus.mapper.FriendRequestMapperCustom">
+    <select id="queryNewFriendRequestList" parameterType="map" resultType="com.solisamicus.pojo.vo.FriendRequestVO">
+        select friend_request.id             as friendRequestId,
+               users.id                      as myFriendId,
+               users.face                    as myFriendFace,
+               users.nickname                as myFriendNickname,
+               friend_request.verify_message as verifyMessage,
+               friend_request.request_time   as requestTime,
+               friend_request.verify_status  as verifyStatus
+        from friend_request
+                 left join users on friend_request.my_id = users.id
+        where friend_request.friend_id = #{paramMap.mySelfId}
+        order by friend_request.request_time desc
+    </select>
+</mapper>

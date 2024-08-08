@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solisamicus.mapper.FriendShipMapperCustom">
+    <select id="queryMyFriends" parameterType="map" resultType="com.solisamicus.pojo.vo.ContactsVO">
+        select
+        friend_ship.id as friendshipId,
+        friend_ship.my_id as mySelfId,
+        friend_ship.friend_id as myFriendId,
+        users.face as myFriendFace,
+        users.nickname as myFriendNickname,
+        friend_ship.friend_remark as myFriendRemark,
+        friend_ship.chat_bg as chatBg,
+        friend_ship.is_msg_ignore as isMsgIgnore,
+        friend_ship.is_black as isBlack
+        from friend_ship
+        left join users on friend_ship.friend_id = users.id
+        where
+        friend_ship.my_id = #{paramMap.myId}
+        <if test=" paramMap.needBlack ">
+            and friend_ship.is_black = 1
+        </if>
+        <if test=" !paramMap.needBlack ">
+            and friend_ship.is_black = 0
+        </if>
+    </select>
+</mapper>

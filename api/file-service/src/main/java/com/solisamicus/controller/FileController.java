@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.solisamicus.constants.Properties.*;
+import static com.solisamicus.constants.QrCodeConstants.IMAGE_FORMAT;
 import static com.solisamicus.constants.Symbols.DOT;
 import static com.solisamicus.constants.Symbols.SLASH;
 
@@ -63,7 +64,7 @@ public class FileController {
         String qrCodePath = QrCodeUtils.generateQRCode(JsonUtils.objectToJson(map));
         if (StringUtils.isNotBlank(qrCodePath)) {
             String uuid = UUID.randomUUID().toString();
-            String filename = String.format("%s%s%s%s%s%s%s", QRCODE_DIRECTORY, SLASH, userId, SLASH, uuid, DOT, "png");
+            String filename = String.format("%s%s%s%s%s%s%s", QRCODE_DIRECTORY, SLASH, userId, SLASH, uuid, DOT, IMAGE_FORMAT);
             String qrCodeUrl = "";
             try {
                 qrCodeUrl = MinIOUtils.uploadFile(minIOConfig.getBucketName(), filename, qrCodePath, true);

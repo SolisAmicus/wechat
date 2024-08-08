@@ -7,4 +7,6 @@ public interface IUsersService {
     void modifyUserInfo(ModifyUserBO UsersBO);
 
     Users getUserById(String userId);
+
+    Users getUserByWechatNumOrMobile(String wechatNumOrMobile);
 }

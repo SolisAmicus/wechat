@@ -1,6 +1,7 @@
 package com.solisamicus.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.solisamicus.exceptions.GraceException;
 import com.solisamicus.feign.FileMicroServiceFeign;
 import com.solisamicus.grace.result.ResponseStatusEnum;
@@ -54,6 +55,15 @@ public class UsersServiceImpl implements IUsersService {
     @Override
     public Users getUserById(String userId) {
         return usersMapper.selectById(userId);
+    }
+
+    @Override
+    public Users getUserByWechatNumOrMobile(String wechatNumOrMobile) {
+        QueryWrapper<Users> queryWrapper = new QueryWrapper<Users>()
+                .eq("wechat_num", wechatNumOrMobile)
+                .or()
+                .eq("mobile", wechatNumOrMobile);
+        return usersMapper.selectOne(queryWrapper);
     }
 
     @Autowired

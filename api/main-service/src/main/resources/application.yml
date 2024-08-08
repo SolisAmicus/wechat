@@ -9,6 +9,14 @@ spring:
   profiles:
     active: dev
 
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: assign_id
+      update-strategy: not_empty
+    banner: false
+  mapper-locations: classpath*:/mappers/*.xml
+
 logging:
   level:
     root: info

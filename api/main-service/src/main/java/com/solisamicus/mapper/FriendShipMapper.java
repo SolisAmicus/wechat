@@ -1,10 +1,10 @@
 package com.solisamicus.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.solisamicus.pojo.Users;
+import com.solisamicus.pojo.FriendShip;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface UsersMapper extends BaseMapper<Users> {
+public interface FriendShipMapper extends BaseMapper<FriendShip> {
 
 }

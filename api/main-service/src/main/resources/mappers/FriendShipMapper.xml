@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solisamicus.mapper.FriendShipMapper">
+
+    <resultMap id="BaseResultMap" type="com.solisamicus.pojo.FriendShip">
+        <id column="id" property="id" />
+        <result column="my_id" property="myId" />
+        <result column="friend_id" property="friendId" />
+        <result column="friend_remark" property="friendRemark" />
+        <result column="chat_bg" property="chatBg" />
+        <result column="is_msg_ignore" property="isMsgIgnore" />
+        <result column="is_black" property="isBlack" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, my_id, friend_id, friend_remark, chat_bg, is_msg_ignore, is_black, created_time, updated_time
+    </sql>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solisamicus.mapper.FriendRequestMapper">
+
+    <resultMap id="BaseResultMap" type="com.solisamicus.pojo.FriendRequest">
+        <id column="id" property="id" />
+        <result column="my_id" property="myId" />
+        <result column="friend_id" property="friendId" />
+        <result column="friend_remark" property="friendRemark" />
+        <result column="verify_message" property="verifyMessage" />
+        <result column="verify_status" property="verifyStatus" />
+        <result column="request_time" property="requestTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, my_id, friend_id, friend_remark, verify_message, verify_status, request_time
+    </sql>
+
+</mapper>

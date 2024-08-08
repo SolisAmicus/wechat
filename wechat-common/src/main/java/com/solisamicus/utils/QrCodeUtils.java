@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.solisamicus.constants.QrCodeConstants.*;
+
 /**
  * Utility class for generating QR codes.
  */
@@ -53,9 +55,9 @@ public class QrCodeUtils {
     public static String generateQRCode(String data, int width, int height, String filePath) {
         try {
             Map<EncodeHintType, Object> hints = new HashMap<>();
-            hints.put(EncodeHintType.CHARACTER_SET, QrCodeConstants.CHARSET);
-            hints.put(EncodeHintType.ERROR_CORRECTION, QrCodeConstants.ERROR_CORRECTION_LEVEL);
-            hints.put(EncodeHintType.MARGIN, QrCodeConstants.MARGIN);
+            hints.put(EncodeHintType.CHARACTER_SET, CHARSET);
+            hints.put(EncodeHintType.ERROR_CORRECTION, ERROR_CORRECTION_LEVEL);
+            hints.put(EncodeHintType.MARGIN, MARGIN);
 
             MultiFormatWriter writer = new MultiFormatWriter();
             BitMatrix bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height, hints);
@@ -68,7 +70,7 @@ public class QrCodeUtils {
             }
 
             File qrCodeFile = new File(filePath);
-            ImageIO.write(image, QrCodeConstants.IMAGE_FORMAT, qrCodeFile);
+            ImageIO.write(image,IMAGE_FORMAT, qrCodeFile);
 
             return filePath;
         } catch (WriterException e) {

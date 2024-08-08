@@ -1,19 +1,21 @@
 package com.solisamicus.controller;
 
 import com.solisamicus.grace.result.GraceJSONResult;
+import com.solisamicus.grace.result.ResponseStatusEnum;
 import com.solisamicus.pojo.Users;
 import com.solisamicus.pojo.bo.ModifyUserBO;
 import com.solisamicus.pojo.vo.UserVO;
 import com.solisamicus.service.IUsersService;
 import com.solisamicus.utils.RedisOperator;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-import static com.solisamicus.constants.Properties.REDIS_USER_TOKEN;
-import static com.solisamicus.constants.Properties.TOKEN_USER_PREFIX;
+import static com.solisamicus.constants.Properties.*;
 import static com.solisamicus.constants.Symbols.COLON;
 import static com.solisamicus.constants.Symbols.DOT;
 
@@ -70,6 +72,22 @@ public class UserController{
         usersService.modifyUserInfo(userBO);
         UserVO userVO = getUserInfoById(userBO.getUserId(), true);
         return GraceJSONResult.ok(userVO);
+    }
+
+    @PostMapping("queryFriend")
+    public GraceJSONResult queryFriend(@RequestParam("queryString")String wechatNumOrMobile, HttpServletRequest request) {
+        if (StringUtils.isBlank(wechatNumOrMobile)) {
+            return GraceJSONResult.error();
+        }
+        Users friend = usersService.getUserByWechatNumOrMobile(wechatNumOrMobile);
+        if (friend == null) {
+            return GraceJSONResult.errorCustom(ResponseStatusEnum.FRIEND_NOT_EXIST_ERROR);
+        }
+        String myId = request.getHeader(HEADER_USER_ID);
+        if (myId.equals(friend.getId())) {
+            return GraceJSONResult.errorCustom(ResponseStatusEnum.CAN_NOT_ADD_SELF_FRIEND_ERROR);
+        }
+        return GraceJSONResult.ok(friend);
     }
 
     private UserVO getUserInfoById(String userId, boolean needToken) {

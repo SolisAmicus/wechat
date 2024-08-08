@@ -27,4 +27,18 @@ public class Properties {
     public static final String FRIEND_CIRCLE_BG_DIRECTORY = "friend circle background"; // Directory name for friend circle background images
 
     public static final String CHAT_BG_DIRECTORY = "chat background"; // Directory name for friend chat background images
+
+    public static final String NEW_FRIEND_PAGE = "1";
+
+    public static final String NEW_FRIEND_PAGE_SIZE = "10";
+
+    // 是否消息免打扰
+    public static final int IS_MSG_IGNORE_NO = 0;
+
+    public static final int IS_MSG_IGNORE_YES = 1;
+
+    // 是否拉黑
+    public static final int IS_BLACK_NO = 0;
+
+    public static final int IS_BLACK_YES = 1;
 }
