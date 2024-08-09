@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solisamicus.mapper.FriendCircleLikedMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.solisamicus.pojo.FriendCircleLiked">
+        <id column="id" property="id" />
+        <result column="belong_user_id" property="belongUserId" />
+        <result column="friend_circle_id" property="friendCircleId" />
+        <result column="liked_user_id" property="likedUserId" />
+        <result column="liked_user_name" property="likedUserName" />
+        <result column="created_time" property="createdTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, belong_user_id, friend_circle_id, liked_user_id, liked_user_name, created_time
+    </sql>
+
+</mapper>

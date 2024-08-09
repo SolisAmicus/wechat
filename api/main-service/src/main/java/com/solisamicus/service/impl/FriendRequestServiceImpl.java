@@ -90,7 +90,7 @@ public class FriendRequestServiceImpl implements IFriendRequestService {
         friendRequest.setVerifyStatus(FriendRequestVerifyStatus.SUCCESS.type);
         friendRequestMapper.updateById(friendRequest);
 
-        QueryWrapper updateWrapper = new QueryWrapper<FriendRequest>()
+        QueryWrapper<FriendRequest> updateWrapper = new QueryWrapper<FriendRequest>()
                 .eq("my_id", friendId)
                 .eq("friend_id", mySelfId);
         FriendRequest requestOpposite = new FriendRequest();

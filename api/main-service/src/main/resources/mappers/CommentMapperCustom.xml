@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solisamicus.mapper.CommentMapperCustom">
+    <select id="queryFriendCircleCommentList"
+            parameterType="map"
+            resultType="com.solisamicus.pojo.vo.CommentVO">
+        select c.id               as commentId,
+               c.belong_user_id   as belongUserId,
+               c.friend_circle_id as friendCircleId,
+               c.father_id        as fatherId,
+               c.comment_user_id  as commentUserId,
+               c.comment_content  as commentContent,
+               c.created_time     as createdTime,
+               u.nickname         as commentUserNickname,
+               u.face             as commentUserFace,
+               uu.nickname        as replyedUserNickname
+        from comment c
+                 left join
+             users u on u.id = c.comment_user_id
+                 left join
+             comment cc on cc.id = c.father_id
+                 left join
+             users as uu on uu.id = cc.comment_user_id
+        where c.friend_circle_id = #{paramMap.friendCircleId}
+        order by c.created_time asc
+    </select>
+</mapper>

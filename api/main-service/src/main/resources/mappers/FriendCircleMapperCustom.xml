@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solisamicus.mapper.FriendCircleMapperCustom">
+    <select id="queryFriendCircleList" parameterType="map" resultType="com.solisamicus.pojo.vo.FriendCircleVO">
+        select friend_circle.id           as friendCircleId,
+               users.id                   as userId,
+               users.nickname             as userNickname,
+               users.face                 as userFace,
+               friend_circle.words        as words,
+               friend_circle.images       as images,
+               friend_circle.publish_time as publishTime
+        from friend_circle
+                 left join users on
+            friend_circle.user_id = users.id
+        where users.id = #{paramMap.userId}
+           or users.id in (select friend_ship.friend_id as myFriendId
+                           from friend_ship
+                                    left join
+                                users on friend_ship.friend_id = users.id
+                           where friend_ship.my_id = #{paramMap.userId})
+        order by friend_circle.publish_time desc
+    </select>
+</mapper>

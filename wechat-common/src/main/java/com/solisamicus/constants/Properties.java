@@ -26,6 +26,8 @@ public class Properties {
 
     public static final String FRIEND_CIRCLE_BG_DIRECTORY = "friend circle background"; // Directory name for friend circle background images
 
+    public static final String FRIEND_CIRCLE_IMAGE="friend circle image"; // Directory name for friend circle image
+
     public static final String CHAT_BG_DIRECTORY = "chat background"; // Directory name for friend chat background images
 
     public static final String NEW_FRIEND_PAGE = "1";
@@ -41,4 +43,8 @@ public class Properties {
     public static final int IS_BLACK_NO = 0;
 
     public static final int IS_BLACK_YES = 1;
+
+    public static final String REDIS_FRIEND_CIRCLE_LIKED_COUNTS = "friend_circle_liked_counts";
+
+    public static final String REDIS_DOES_USER_LIKE_FRIEND_CIRCLE = "does_user_like_friend_circle";
 }

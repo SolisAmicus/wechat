@@ -21,20 +21,17 @@ public class FriendShipController {
         if (StringUtils.isBlank(friendId)) {
             return GraceJSONResult.error();
         }
-        String myId = request.getHeader(HEADER_USER_ID);
-        return GraceJSONResult.ok(friendShipService.getFriendShip(myId, friendId));
+        return GraceJSONResult.ok(friendShipService.getFriendShip(request.getHeader(HEADER_USER_ID), friendId));
     }
 
     @PostMapping("queryMyFriends")
     public GraceJSONResult queryMyFriends(HttpServletRequest request) {
-        String myId = request.getHeader(HEADER_USER_ID);
-        return GraceJSONResult.ok(friendShipService.queryMyFriends(myId, false));
+        return GraceJSONResult.ok(friendShipService.queryMyFriends(request.getHeader(HEADER_USER_ID), false));
     }
 
     @PostMapping("queryMyBlackList")
     public GraceJSONResult queryMyBlackList(HttpServletRequest request) {
-        String myId = request.getHeader(HEADER_USER_ID);
-        return GraceJSONResult.ok(friendShipService.queryMyFriends(myId, true));
+        return GraceJSONResult.ok(friendShipService.queryMyFriends(request.getHeader(HEADER_USER_ID), true));
     }
 
     @PostMapping("updateFriendRemark")
@@ -42,8 +39,7 @@ public class FriendShipController {
         if (StringUtils.isBlank(friendId) || StringUtils.isBlank(friendRemark)) {
             return GraceJSONResult.error();
         }
-        String myId = request.getHeader(HEADER_USER_ID);
-        friendShipService.updateFriendRemark(myId, friendId, friendRemark);
+        friendShipService.updateFriendRemark(request.getHeader(HEADER_USER_ID), friendId, friendRemark);
         return GraceJSONResult.ok();
     }
 
@@ -52,8 +48,7 @@ public class FriendShipController {
         if (StringUtils.isBlank(friendId)) {
             return GraceJSONResult.error();
         }
-        String myId = request.getHeader(HEADER_USER_ID);
-        friendShipService.updateBlackList(myId, friendId, Black.YES);
+        friendShipService.updateBlackList(request.getHeader(HEADER_USER_ID), friendId, Black.YES);
         return GraceJSONResult.ok();
     }
 
@@ -62,8 +57,7 @@ public class FriendShipController {
         if (StringUtils.isBlank(friendId)) {
             return GraceJSONResult.error();
         }
-        String myId = request.getHeader(HEADER_USER_ID);
-        friendShipService.updateBlackList(myId, friendId, Black.NO);
+        friendShipService.updateBlackList(request.getHeader(HEADER_USER_ID), friendId, Black.NO);
         return GraceJSONResult.ok();
     }
 
@@ -72,8 +66,7 @@ public class FriendShipController {
         if (StringUtils.isBlank(friendId)) {
             return GraceJSONResult.error();
         }
-        String myId = request.getHeader(HEADER_USER_ID);
-        friendShipService.delete(myId, friendId);
+        friendShipService.delete(request.getHeader(HEADER_USER_ID), friendId);
         return GraceJSONResult.ok();
     }
 }

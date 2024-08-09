@@ -40,9 +40,11 @@ public class FileController {
     public GraceJSONResult uploadFace(@RequestParam("file") MultipartFile file,
                                       @RequestParam("userId") String userId) {
         String filename = file.getOriginalFilename();
+        filename = FileUtils.generateFilenameWithUUIDOnly(filename);
         if (StringUtils.isBlank(userId) || StringUtils.isBlank(filename)) {
             return GraceJSONResult.errorCustom(ResponseStatusEnum.FILE_UPLOAD_FAILD);
         }
+        // face/{userId}/{uuid}.png
         filename = String.format("%s%s%s%s%s", FACE_DIRECTORY, SLASH, userId, SLASH, filename);
         try {
             MinIOUtils.uploadFile(minIOConfig.getBucketName(), filename, file.getInputStream());
@@ -64,6 +66,7 @@ public class FileController {
         String qrCodePath = QrCodeUtils.generateQRCode(JsonUtils.objectToJson(map));
         if (StringUtils.isNotBlank(qrCodePath)) {
             String uuid = UUID.randomUUID().toString();
+            // qrcode/{userId}/{uuid}.png
             String filename = String.format("%s%s%s%s%s%s%s", QRCODE_DIRECTORY, SLASH, userId, SLASH, uuid, DOT, IMAGE_FORMAT);
             String qrCodeUrl = "";
             try {
@@ -84,6 +87,7 @@ public class FileController {
         if (StringUtils.isBlank(userId) || StringUtils.isBlank(filename)) {
             return GraceJSONResult.errorCustom(ResponseStatusEnum.FILE_UPLOAD_FAILD);
         }
+        // friend circle background/{userId}/{uuid}.png
         filename = String.format("%s%s%s%s%s", FRIEND_CIRCLE_BG_DIRECTORY, SLASH, userId, SLASH, filename);
         String friendCircleBgURL = "";
         try {
@@ -104,6 +108,7 @@ public class FileController {
         if (StringUtils.isBlank(userId) || StringUtils.isBlank(filename)) {
             return GraceJSONResult.errorCustom(ResponseStatusEnum.FILE_UPLOAD_FAILD);
         }
+        // chat background/{userId}/{uuid}.png
         filename = String.format("%s%s%s%s%s", CHAT_BG_DIRECTORY, SLASH, userId, SLASH, filename);
         String chatBgURL = "";
         try {
@@ -115,6 +120,23 @@ public class FileController {
         UserVO userVO = JsonUtils.jsonToPojo(JsonUtils.objectToJson(jsonResult.getData()), UserVO.class);
         return GraceJSONResult.ok(userVO);
     }
+
+    @PostMapping("uploadFriendCircleImage")
+    public GraceJSONResult uploadFriendCircleImage(@RequestParam("file") MultipartFile file,
+                                                   @RequestParam("userId") String userId) {
+        String filename = file.getOriginalFilename();
+        filename = FileUtils.generateFilenameWithUUIDOnly(filename);
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(filename)) {
+            return GraceJSONResult.errorCustom(ResponseStatusEnum.FILE_UPLOAD_FAILD);
+        }
+        // friend circle image/{userId}/{uuid}.png
+        filename = String.format("%s%s%s%s%s", FRIEND_CIRCLE_IMAGE, SLASH, userId, SLASH, filename);
+        String friendCircleImageURL = "";
+        try {
+            friendCircleImageURL = MinIOUtils.uploadFile(minIOConfig.getBucketName(), filename, file.getInputStream(), true);
+        } catch (Exception e) {
+            GraceException.display(ResponseStatusEnum.FILE_UPLOAD_FAILD);
+        }
+        return GraceJSONResult.ok(friendCircleImageURL);
+    }
 }
-
-

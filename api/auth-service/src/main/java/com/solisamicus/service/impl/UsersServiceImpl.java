@@ -29,10 +29,7 @@ public class UsersServiceImpl extends Properties implements IUsersService {
 
     @Override
     public Users queryMobileIfExist(String mobile) {
-        return usersMapper.selectOne(
-                new QueryWrapper<Users>()
-                        .eq("mobile", mobile)
-        );
+        return usersMapper.selectOne(new QueryWrapper<Users>().eq("mobile", mobile));
     }
 
     @Transactional

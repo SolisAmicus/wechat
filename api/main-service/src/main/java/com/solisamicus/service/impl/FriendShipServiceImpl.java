@@ -43,9 +43,9 @@ public class FriendShipServiceImpl implements IFriendShipService {
     @Transactional
     @Override
     public void updateFriendRemark(String myId, String friendId, String friendRemark) {
-        QueryWrapper<FriendShip> updateWrapper = new QueryWrapper<>();
-        updateWrapper.eq("my_id", myId);
-        updateWrapper.eq("friend_id", friendId);
+        QueryWrapper<FriendShip> updateWrapper = new QueryWrapper<FriendShip>().
+                eq("my_id", myId).
+                eq("friend_id", friendId);
         FriendShip friendship = new FriendShip();
         friendship.setFriendRemark(friendRemark);
         friendship.setUpdatedTime(LocalDateTime.now());
@@ -55,10 +55,9 @@ public class FriendShipServiceImpl implements IFriendShipService {
     @Transactional
     @Override
     public void updateBlackList(String myId, String friendId, Black black) {
-        QueryWrapper<FriendShip> updateWrapper = new QueryWrapper<>();
-        updateWrapper.eq("my_id", myId);
-        updateWrapper.eq("friend_id", friendId);
-
+        QueryWrapper<FriendShip> updateWrapper = new QueryWrapper<FriendShip>().
+                eq("my_id", myId).
+                eq("friend_id", friendId);
         FriendShip friendship = new FriendShip();
         friendship.setIsBlack(black.type);
         friendship.setUpdatedTime(LocalDateTime.now());
@@ -68,13 +67,13 @@ public class FriendShipServiceImpl implements IFriendShipService {
     @Transactional
     @Override
     public void delete(String myId, String friendId) {
-        QueryWrapper<FriendShip> deleteWrapper1 = new QueryWrapper<>();
-        deleteWrapper1.eq("my_id", myId);
-        deleteWrapper1.eq("friend_id", friendId);
+        QueryWrapper<FriendShip> deleteWrapper1 = new QueryWrapper<FriendShip>().
+                eq("my_id", myId).
+                eq("friend_id", friendId);
         friendShipMapper.delete(deleteWrapper1);
-        QueryWrapper<FriendShip> deleteWrapper2 = new QueryWrapper<>();
-        deleteWrapper2.eq("my_id", friendId);
-        deleteWrapper2.eq("friend_id", myId);
+        QueryWrapper<FriendShip> deleteWrapper2 = new QueryWrapper<FriendShip>().
+                eq("my_id", friendId).
+                eq("friend_id", myId);
         friendShipMapper.delete(deleteWrapper2);
     }
 }
