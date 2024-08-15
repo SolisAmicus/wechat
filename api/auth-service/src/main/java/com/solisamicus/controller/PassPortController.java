@@ -64,7 +64,7 @@ public class PassPortController{
             return GraceJSONResult.errorCustom(ResponseStatusEnum.SMS_CODE_ERROR);
         }
 
-        redis.del(redisKey);
+        redis.deleteKeyByKey(redisKey);
 
         Users user = usersService.queryMobileIfExist(mobile);
         if (user != null) {
@@ -73,9 +73,8 @@ public class PassPortController{
         user = usersService.createUsers(mobile, nickname);
 
         String uToken = generateUserToken();
-        redis.set(tokenRedisKey(user.getId()), uToken);
-        // String keyForUserDevice = tokenRedisKey(uToken);
-        // redis.set(keyForUserDevice,uId);
+        String uId = user.getId();
+        redis.set(tokenRedisKey(uToken), uId);
 
         UserVO userVO = convertToUserVO(user, uToken);
         return GraceJSONResult.ok(userVO);
@@ -93,7 +92,7 @@ public class PassPortController{
             return GraceJSONResult.errorCustom(ResponseStatusEnum.SMS_CODE_ERROR);
         }
 
-        redis.del(redisKey);
+        redis.deleteKeyByKey(redisKey);
 
         Users user = usersService.queryMobileIfExist(mobile);
         if (user == null) {
@@ -101,7 +100,8 @@ public class PassPortController{
         }
 
         String uToken = generateUserToken();
-        redis.set(tokenRedisKey(user.getId()), uToken);
+        String uId = user.getId();
+        redis.set(tokenRedisKey(uToken), uId);
 
         UserVO userVO = convertToUserVO(user, uToken);
         return GraceJSONResult.ok(userVO);
@@ -120,7 +120,7 @@ public class PassPortController{
             return GraceJSONResult.errorCustom(ResponseStatusEnum.SMS_CODE_ERROR);
         }
 
-        redis.del(redisKey);
+        redis.deleteKeyByKey(redisKey);
 
         Users user = usersService.queryMobileIfExist(mobile);
 
@@ -129,8 +129,8 @@ public class PassPortController{
         }
 
         String uToken = generateUserToken();
-        redis.set(tokenRedisKey(user.getId()), uToken);
-
+        String uId = user.getId();
+        redis.set(tokenRedisKey(uToken), uId);
 
         UserVO userVO = convertToUserVO(user, uToken);
         return GraceJSONResult.ok(userVO);
@@ -138,7 +138,7 @@ public class PassPortController{
 
     @PostMapping("logout")
     public GraceJSONResult logout(@RequestParam("userId") String userId) {
-        redis.del(tokenRedisKey(userId));
+        redis.deleteKeysByValue(userId);
         return GraceJSONResult.ok();
     }
 

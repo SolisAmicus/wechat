@@ -5,25 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.solisamicus</groupId>
-        <artifactId>wechat-dev</artifactId>
+        <artifactId>api</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>api</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>auth-service</module>
-        <module>main-service</module>
-        <module>file-service</module>
-        <module>chat-service</module>
-        <module>base-service</module>
-    </modules>
+    <artifactId>chat-service</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.solisamicus</groupId>
-            <artifactId>wechat-pojo</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
         </dependency>
     </dependencies>
 </project>

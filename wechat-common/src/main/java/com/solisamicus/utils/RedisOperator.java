@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.StringRedisConnection;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
@@ -62,13 +64,40 @@ public class RedisOperator {
         return redisTemplate.keys(pattern);
     }
 
-    public void del(String key) {
+    /**
+     * Deletes a specific key from Redis.
+     *
+     * @param key the key to delete
+     */
+    public void deleteKeyByKey(String key) {
         redisTemplate.delete(key);
     }
 
-    public void allDel(String key) {
+    /**
+     * Deletes all keys that match a given pattern from Redis.
+     *
+     * @param key the pattern to match keys (e.g., "user:" will match "user:1", "user:2", etc.)
+     */
+    public void deleteKeysByKey(String key) {
         Set<String> keys = redisTemplate.keys(key + "*");
         redisTemplate.delete(keys);
+    }
+
+
+    /**
+     * Deletes all key-value pairs where the value matches the specified target value.
+     *
+     * @param targetValue the value to match against the stored values
+     */
+    public void deleteKeysByValue(String targetValue) {
+        Cursor<byte[]> cursor = redisTemplate.executeWithStickyConnection(redisConnection -> redisConnection.scan(ScanOptions.scanOptions().match("*").count(1000).build()));
+        while (cursor.hasNext()) {
+            String key = new String(cursor.next());
+            String value = redisTemplate.opsForValue().get(key);
+            if (targetValue.equals(value)) {
+                redisTemplate.delete(key);
+            }
+        }
     }
 
     /**
@@ -167,10 +196,6 @@ public class RedisOperator {
     }
 
     public Long execLuaScript(String script, String key, String value) {
-        return redisTemplate.execute(
-                new DefaultRedisScript<>(script, Long.class),
-                Collections.singletonList(key),
-                value
-        );
+        return redisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Collections.singletonList(key), value);
     }
 }

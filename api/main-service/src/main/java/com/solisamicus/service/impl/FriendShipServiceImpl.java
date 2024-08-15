@@ -76,4 +76,22 @@ public class FriendShipServiceImpl implements IFriendShipService {
                 eq("friend_id", myId);
         friendShipMapper.delete(deleteWrapper2);
     }
+
+    @Override
+    public boolean isBlackEachOther(String friendId1st, String friendId2nd) {
+        QueryWrapper<FriendShip> queryWrapper = new QueryWrapper<>();
+        /**
+         * SELECT * FROM friend_ship
+         * WHERE (my_id = 'friendId1st' AND friend_id = 'friendId2nd' AND is_black = 'YES')
+         *    OR (my_id = 'friendId2nd' AND friend_id = 'friendId1st' AND is_black = 'YES');
+         */
+        queryWrapper.eq("my_id", friendId1st).
+                eq("friend_id", friendId2nd).
+                eq("is_black", Black.YES.type).
+                or().
+                eq("my_id", friendId2nd).
+                eq("friend_id", friendId1st).
+                eq("is_black", Black.YES.type);
+        return friendShipMapper.selectCount(queryWrapper) > 0;
+    }
 }

@@ -90,7 +90,7 @@ public class FriendCircleServiceImpl implements IFriendCircleService {
                 .eq("liked_user_id", userId);
         friendCircleLikedMapper.delete(deleteWrapper);
         redis.decrement(REDIS_FRIEND_CIRCLE_LIKED_COUNTS + ":" + friendCircleId, 1);
-        redis.del(REDIS_DOES_USER_LIKE_FRIEND_CIRCLE + ":" + friendCircleId + ":" + userId);
+        redis.deleteKeyByKey(REDIS_DOES_USER_LIKE_FRIEND_CIRCLE + ":" + friendCircleId + ":" + userId);
     }
 
     @Override

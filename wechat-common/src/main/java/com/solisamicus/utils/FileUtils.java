@@ -52,6 +52,24 @@ public class FileUtils {
                 .toString();
     }
 
+    /**
+     * Generates a new filename by replacing the original filename with a UUID, without preserving the file extension.
+     *
+     * @param filename the original filename
+     * @return the new filename with the UUID replacing the original filename, without any file extension
+     * @throws IllegalArgumentException if the filename is null or does not contain a period (.)
+     */
+    public static String generateFilenameWithUUIDOnlyWithoutSuffix(String filename) {
+        // Validate input
+        validateFilename(filename);
+
+        // Generate a random UUID
+        String uuid = UUID.randomUUID().toString();
+
+        // Return the UUID as the new filename without any suffix
+        return uuid;
+    }
+
     private static void validateFilename(String filename) {
         if (filename == null || !filename.contains(".")) {
             throw new IllegalArgumentException("Invalid filename. The filename must contain a period (.)");

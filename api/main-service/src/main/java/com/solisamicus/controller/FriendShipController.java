@@ -69,4 +69,9 @@ public class FriendShipController {
         friendShipService.delete(request.getHeader(HEADER_USER_ID), friendId);
         return GraceJSONResult.ok();
     }
+
+    @GetMapping("isBlack")
+    public GraceJSONResult isBlack(String friendId1st, String friendId2nd) {
+        return GraceJSONResult.ok(friendShipService.isBlackEachOther(friendId1st, friendId2nd));
+    }
 }

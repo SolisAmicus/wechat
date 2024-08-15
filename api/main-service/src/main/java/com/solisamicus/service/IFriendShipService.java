@@ -16,4 +16,6 @@ public interface IFriendShipService {
     void updateBlackList(String myId, String friendId, Black black);
 
     void delete(String myId, String friendId);
+
+    boolean isBlackEachOther(String friendId1st, String friendId2nd);
 }

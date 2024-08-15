@@ -10,25 +10,35 @@ public class Properties {
 
     public static final String TOKEN_USER_PREFIX = "app";
 
-    public static final String MOBILE_SMSCODE_PREFIX = "mobile:smscode"; // Verification code prefix
+    public static final String MOBILE_SMSCODE_PREFIX = "mobile:smscode";
 
-    public static final Integer CAPTCHA_LENGTH = 6; // Verification code length
+    public static final Integer CAPTCHA_LENGTH = 6;
 
-    public static final Integer CAPTCHA_VALIDITY_SECONDS = 60; // Verification code validity period
+    public static final Integer CAPTCHA_VALIDITY_SECONDS = 5; // Verification code validity period //todo
 
-    public static final Integer CAPTCHA_EXPIRATION_SECONDS = 300; //  Verification code expiration period
+    public static final Integer CAPTCHA_EXPIRATION_SECONDS = 300;
 
     public static final String REDIS_USER_ALREADY_UPDATE_WECHAT_NUM = "redis_user_already_update_wechat_num";
 
-    public static final String FACE_DIRECTORY = "face"; // Directory name for face images
+    public static final String FACE = "face";
 
-    public static final String QRCODE_DIRECTORY = "qrcode"; // Directory name for qrcode images
+    public static final String QRCODE = "qrcode";
 
-    public static final String FRIEND_CIRCLE_BG_DIRECTORY = "friend circle background"; // Directory name for friend circle background images
+    public static final String FRIEND_CIRCLE = "friend circle";
 
-    public static final String FRIEND_CIRCLE_IMAGE="friend circle image"; // Directory name for friend circle image
+    public static final String IMAGES = "images";
 
-    public static final String CHAT_BG_DIRECTORY = "chat background"; // Directory name for friend chat background images
+    public static final String BG = "background";
+
+    public static final String COVER="cover";
+
+    public static final String CHAT = "chat";
+
+    public static final String PHOTO="photo";
+
+    public static final String VIDEO="video";
+
+    public static final String VOICE="voice";
 
     public static final String NEW_FRIEND_PAGE = "1";
 

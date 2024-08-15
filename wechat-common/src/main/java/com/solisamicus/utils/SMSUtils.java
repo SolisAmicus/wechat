@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @Component
@@ -18,7 +19,7 @@ public class SMSUtils {
     @Autowired
     private AliyunSMSProperties aliyunSMSProperties;
 
-    public void sendSMS(String mobile, String captcha) throws Exception {
+    public void sendSMS(String mobile, String captcha){
         StaticCredentialProvider provider = StaticCredentialProvider.create(Credential.builder()
                 .accessKeyId(aliyunSMSProperties.getAccessKeyId())
                 .accessKeySecret(aliyunSMSProperties.getAccessKeySecret())
@@ -37,7 +38,14 @@ public class SMSUtils {
                 .templateParam("{\"code\":\"" + captcha + "\"}")
                 .build();
         CompletableFuture<SendSmsResponse> response = client.sendSms(sendSmsRequest);
-        SendSmsResponse resp = response.get();
+        SendSmsResponse resp = null;
+        try {
+            resp = response.get();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(new Gson().toJson(resp));
         client.close();
     }

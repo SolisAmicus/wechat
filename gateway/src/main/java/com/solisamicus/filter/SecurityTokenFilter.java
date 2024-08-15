@@ -62,8 +62,8 @@ public class SecurityTokenFilter implements GlobalFilter, Ordered {
         log.info("userToken = {}", userToken);
 
         if (StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(userToken)) {
-            String redisToken = redis.get(REDIS_USER_TOKEN + ":" + userId);
-            if (redisToken != null && redisToken.equals(userToken)) {
+            String userIdRedis = redis.get(REDIS_USER_TOKEN + ":" + userToken);
+            if (userIdRedis != null && userIdRedis.equals(userId)) {
                 log.info("Token validation successful for userId [{}], allowing request to proceed.", userId);
                 return chain.filter(exchange);
             } else {
