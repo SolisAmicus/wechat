@@ -2,7 +2,6 @@ package com.solisamicus.controller;
 
 import com.solisamicus.grace.result.GraceJSONResult;
 import com.solisamicus.pojo.bo.FriendCircleBO;
-import com.solisamicus.pojo.vo.CommentVO;
 import com.solisamicus.pojo.vo.FriendCircleVO;
 import com.solisamicus.result.PagedGridResult;
 import com.solisamicus.service.ICommentService;

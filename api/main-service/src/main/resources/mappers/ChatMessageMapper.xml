@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solisamicus.mapper.ChatMessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.solisamicus.pojo.ChatMessage">
+        <id column="id" property="id" />
+        <result column="sender_id" property="senderId" />
+        <result column="receiver_id" property="receiverId" />
+        <result column="receiver_type" property="receiverType" />
+        <result column="msg" property="msg" />
+        <result column="msg_type" property="msgType" />
+        <result column="chat_time" property="chatTime" />
+        <result column="show_msg_date_time_flag" property="showMsgDateTimeFlag" />
+        <result column="video_path" property="videoPath" />
+        <result column="video_width" property="videoWidth" />
+        <result column="video_height" property="videoHeight" />
+        <result column="video_times" property="videoTimes" />
+        <result column="voice_path" property="voicePath" />
+        <result column="speak_voice_duration" property="speakVoiceDuration" />
+        <result column="is_read" property="isRead" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sender_id, receiver_id, receiver_type, msg, msg_type, chat_time, show_msg_date_time_flag, video_path, video_width, video_height, video_times, voice_path, speak_voice_duration, is_read
+    </sql>
+
+</mapper>

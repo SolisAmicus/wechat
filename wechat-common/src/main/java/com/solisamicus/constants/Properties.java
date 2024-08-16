@@ -30,15 +30,15 @@ public class Properties {
 
     public static final String BG = "background";
 
-    public static final String COVER="cover";
+    public static final String COVER = "cover";
 
     public static final String CHAT = "chat";
 
-    public static final String PHOTO="photo";
+    public static final String PHOTO = "photo";
 
-    public static final String VIDEO="video";
+    public static final String VIDEO = "video";
 
-    public static final String VOICE="voice";
+    public static final String VOICE = "voice";
 
     public static final String NEW_FRIEND_PAGE = "1";
 
@@ -57,4 +57,6 @@ public class Properties {
     public static final String REDIS_FRIEND_CIRCLE_LIKED_COUNTS = "friend_circle_liked_counts";
 
     public static final String REDIS_DOES_USER_LIKE_FRIEND_CIRCLE = "does_user_like_friend_circle";
+
+    public static final String CHAT_MSG_LIST = "chat_msg_list";
 }

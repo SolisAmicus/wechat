@@ -1,7 +1,9 @@
 package com.solisamicus.netty.websocket;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.solisamicus.enums.MsgType;
 import com.solisamicus.grace.result.GraceJSONResult;
+import com.solisamicus.netty.rabbitmq.RabbitMQPublisher;
 import com.solisamicus.pojo.netty.ChatMsg;
 import com.solisamicus.pojo.netty.DataContent;
 import com.solisamicus.utils.JsonUtils;
@@ -53,6 +55,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 || MsgType.IMAGE.type.equals(msgType)
                 || MsgType.VIDEO.type.equals(msgType)
                 || MsgType.VOICE.type.equals(msgType)) {
+            chatMsg.setMsgId(IdWorker.getIdStr());
             List<Channel> receiverChannels = UserSession.getMultiChannels(receiverId);
             if (Objects.isNull(receiverChannels) || receiverChannels.isEmpty()) {
                 chatMsg.setIsReceiverOnLine(false);
@@ -68,6 +71,11 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
                         findChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.objectToJson(data)));
                     }
                 }
+            }
+            try {
+                RabbitMQPublisher.sendMsgToSave(chatMsg);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
         List<Channel> myOtherMultiChannels = UserSession.getMyOtherMultiChannels(senderId, channelId);

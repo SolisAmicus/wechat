@@ -12,4 +12,5 @@ import lombok.ToString;
 public class DataContent {
     private ChatMsg chatMsg;
     private String chatTime;
+    private String extend;
 }

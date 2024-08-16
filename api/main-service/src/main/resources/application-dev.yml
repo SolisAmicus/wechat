@@ -29,3 +29,9 @@ spring:
         server-addr: 127.0.0.1:8848
         username: nacos
         password: nacos
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5682
+    username: solisamicus
+    password: rabbitmq
+    virtual-host: wechat-dev

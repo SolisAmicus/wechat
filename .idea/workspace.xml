@@ -4,56 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ede2bba-d6ee-48cf-b956-4c4eec27cea6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api/chat-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/http/ChatServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/http/HttpChannelInitializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/http/HttpHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/ChatServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/HeartBeatHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/UserSession.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/WebSocketChannelInitializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/WebSocketHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/file-service/src/main/java/com/solisamicus/controller/BaiduSpeechController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/config/BaiduSpeechProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/VideoCoverConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/enums/MsgType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/OKHTTPUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/VideoCoverUtils.java" afterDir="false" />
+    <list default="true" id="1ede2bba-d6ee-48cf-b956-4c4eec27cea6" name="Changes" comment="feat: Implement Netty chat service with session management, multi-device message sync, Redis key refactor, and AI integration">
+      <change afterPath="$PROJECT_DIR$/api/base-service/src/main/java/com/solisamicus/config/RabbitMQ.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/rabbitmq/RabbitMQConnectUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/rabbitmq/RabbitMQPublisher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/controller/ChatController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/mapper/ChatMessageMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/rabbitmq/RabbitMQConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/service/IChatMessageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/service/impl/ChatMessageServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/main-service/src/main/resources/mappers/ChatMessageMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/RabbitMQConstants.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/wechat-common/src/main/resources/aliyunSMS.properties" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/wechat-common/src/main/resources/baiduSpeech.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-pojo/src/main/java/com/solisamicus/pojo/netty/ChatMsg.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-pojo/src/main/java/com/solisamicus/pojo/netty/DataContent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-pojo/src/main/java/com/solisamicus/pojo/vo/VideoMsgVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/auth-service/src/main/java/com/solisamicus/controller/PassPortController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/auth-service/src/main/java/com/solisamicus/controller/PassPortController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/file-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api/file-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/file-service/src/main/java/com/solisamicus/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/file-service/src/main/java/com/solisamicus/controller/FileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/file-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/file-service/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/controller/FriendShipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/controller/FriendShipController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/service/IFriendShipService.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/service/IFriendShipService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/service/impl/FriendCircleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/service/impl/FriendCircleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/service/impl/FriendShipServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/service/impl/FriendShipServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/com/solisamicus/filter/SecurityTokenFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/com/solisamicus/filter/SecurityTokenFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wechat-pojo/src/main/java/com/solisamicus/pojo/ChatMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/base-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api/base-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/chat-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api/chat-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/WebSocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/file-service/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/file-service/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/controller/FriendCircleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/controller/FriendCircleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/resources/application-dev.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/excludeUrlPath.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/excludeUrlPath.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/Properties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/QrCodeConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/QrCodeConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/exceptions/GraceException.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/exceptions/GraceException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/exceptions/MyCustomException.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/exceptions/MyCustomException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/FileUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/QrCodeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/QrCodeUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/RedisOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/RedisOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/SMSUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/SMSUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wechat-pojo/src/main/java/com/solisamicus/pojo/netty/DataContent.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-pojo/src/main/java/com/solisamicus/pojo/netty/DataContent.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +37,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Mybatis Mapper" />
         <option value="Class" />
       </list>
     </option>
@@ -104,48 +79,55 @@
     <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.ChatServer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.VideoCoverUtils.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.file-service [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.file-service [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.wechat-dev [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.wechat-dev [install].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.auth-service-8888.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.auth-service.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.file-service-5555.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.file-service.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.gateway-1000.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.gateway.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.main-service-6666.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.main-service.executor&quot;: &quot;Debug&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/solisamicus/Documents/Projects/wechat-dev/wechat-common/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ChatServer.executor": "Run",
+    "Application.VideoCoverUtils.executor": "Run",
+    "Maven.file-service [clean].executor": "Run",
+    "Maven.file-service [install].executor": "Run",
+    "Maven.wechat-dev [clean].executor": "Run",
+    "Maven.wechat-dev [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.auth-service-8888.executor": "Debug",
+    "Spring Boot.auth-service.executor": "Debug",
+    "Spring Boot.file-service-5555.executor": "Debug",
+    "Spring Boot.file-service.executor": "Debug",
+    "Spring Boot.gateway-1000.executor": "Debug",
+    "Spring Boot.gateway.executor": "Debug",
+    "Spring Boot.main-service-6666.executor": "Debug",
+    "Spring Boot.main-service.executor": "Debug",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/solisamicus/Documents/Projects/wechat-dev/api/main-service/src/main/java/com/solisamicus",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\solisamicus\Documents\Projects\wechat-dev\api\main-service\src\main\java\com\solisamicus" />
       <recent name="C:\Users\solisamicus\Documents\Projects\wechat-dev\wechat-common\src\main\resources" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.solisamicus.service" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.solisamicus.controller" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -240,12 +222,36 @@
       <workItem from="1723725650632" duration="3837000" />
       <workItem from="1723729669408" duration="529000" />
       <workItem from="1723730201725" duration="1165000" />
-      <workItem from="1723731381079" duration="3589000" />
+      <workItem from="1723731381079" duration="26764000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: Implement Netty chat service with session management, multi-device message sync, Redis key refactor, and AI integration">
+      <option name="closed" value="true" />
+      <created>1723735250829</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1723735250829</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: Implement Netty chat service with session management, multi-device message sync, Redis key refactor, and AI integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Implement Netty chat service with session management, multi-device message sync, Redis key refactor, and AI integration" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

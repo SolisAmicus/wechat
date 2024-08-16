@@ -36,3 +36,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+wechat-common/src/main/resources/aliyunSMS.properties
+wechat-common/src/main/resources/baiduSpeech.properties
