@@ -35,3 +35,13 @@ spring:
     username: solisamicus
     password: rabbitmq
     virtual-host: wechat-dev
+
+zookeeper:
+  curator:
+    host: 127.0.0.1
+    port: 2181
+    connectionTimeout: 30000
+    sessionTimeout: 3000
+    sleepBetweenRetry: 2000
+    maxRetries: 3
+    namespace: wechat-dev

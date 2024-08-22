@@ -1,15 +1,23 @@
 package com.solisamicus.netty.websocket;
 
+import com.solisamicus.enums.MsgType;
+import com.solisamicus.pojo.netty.ChatMsg;
+import com.solisamicus.pojo.netty.DataContent;
+import com.solisamicus.utils.JsonUtils;
+import com.solisamicus.utils.LocalDateUtils;
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UserSession {
     // key: user id, value: channels
-    private static final Map<String, List<Channel>> multiSession = new ConcurrentHashMap<>();   // 多端
+    private static final Map<String, List<Channel>> multiSession = new ConcurrentHashMap<>();
 
     // key: channel id, value: user id
     private static final Map<String, String> channelUserIDRelation = new ConcurrentHashMap<>();
@@ -25,8 +33,8 @@ public class UserSession {
 
     public static List<Channel> getMyOtherMultiChannels(String userId, String channelId) {
         List<Channel> channels = getMultiChannels(userId);
-        if (channels == null) {
-            return new ArrayList<>();
+        if (channels == null || channels.isEmpty()) {
+            return null;
         }
         List<Channel> otherChannels = new ArrayList<>();
         for (Channel channel : channels) {
@@ -34,6 +42,7 @@ public class UserSession {
                 otherChannels.add(channel);
             }
         }
+        System.out.println(otherChannels);
         return otherChannels;
     }
 
@@ -51,6 +60,26 @@ public class UserSession {
 
     public static String getUserChannels(String channelId) {
         return channelUserIDRelation.get(channelId);
+    }
+
+    public static void sendToTarget(List<Channel> receiverChannels, DataContent data) {
+        ChannelGroup clients = WebSocketHandler.clients;
+        ChatMsg chatMsg = data.getChatMsg();
+        if (Objects.isNull(receiverChannels) || receiverChannels.isEmpty()) {
+            chatMsg.setIsReceiverOnLine(false);
+        } else {
+            chatMsg.setIsReceiverOnLine(true);
+            for (Channel c : receiverChannels) {
+                Channel findChannel = clients.find(c.id());
+                if (Objects.nonNull(findChannel)) {
+                    if (MsgType.VOICE.type.equals(chatMsg.getMsgType())) {
+                        chatMsg.setIsRead(false);
+                    }
+                    data.setChatMsg(chatMsg);
+                    findChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.objectToJson(data)));
+                }
+            }
+        }
     }
 
     public static void printSessions() {

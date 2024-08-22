@@ -9,9 +9,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class DataContent {
-    private ChatMsg chatMsg;
-    private String chatTime;
-    private String extend;
-    private ServerNode serverNode;
+public class ServerNode {
+    private String host;
+    private Integer port;
+    private Integer onlineCounts = 0;
 }

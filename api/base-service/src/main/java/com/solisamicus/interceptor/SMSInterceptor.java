@@ -19,7 +19,7 @@ public class SMSInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        boolean isExist = redis.keyIsExist(String.format("%s%s%s", MOBILE_SMSCODE_PREFIX, COLON, IPUtils.getRequestIp(request)));
+        boolean isExist = redis.keyIsExist(String.format("%s%s%s", MOBILE_SMSCODE_PREFIX, COLON, IPUtils.getIp(request)));
         if (isExist) {
             GraceException.display(ResponseStatusEnum.SMS_NEED_WAIT_ERROR);
             return false;

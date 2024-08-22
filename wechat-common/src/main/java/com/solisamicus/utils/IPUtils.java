@@ -30,43 +30,18 @@ public class IPUtils {
     );
 
     /**
-     * 从 HttpServletRequest 的请求头中获取 IP 地址
-     *
-     * @param request HttpServletRequest
-     * @return
-     */
-    private static String getHeaderIp(HttpServletRequest request) {
-        return IP_HEADERS.stream()
-                .map(request::getHeader)
-                .filter(ip -> ip != null && !ip.isEmpty() && !IP_UNKNOWN.equalsIgnoreCase(ip))
-                .findFirst()
-                .orElse(null);
-    }
-
-    /**
      * 从 HttpServletRequest 获取 IP 地址
      *
      * @param request HttpServletRequest
      * @return
      */
-    public static String getRequestIp(HttpServletRequest request) {
-        String ip = getHeaderIp(request);
-        return (ip != null) ? ip : request.getRemoteAddr();
-    }
-
-    /**
-     * 从 ServerHttpRequest 的请求头中获取IP地址
-     *
-     * @param request ServerHttpRequest
-     * @return
-     */
-    private static String getHeaderIp(ServerHttpRequest request) {
-        HttpHeaders headers = request.getHeaders();
-        return IP_HEADERS.stream()
-                .map(headers::getFirst)
+    public static String getIp(HttpServletRequest request) {
+        String ipAddress = IP_HEADERS.stream()
+                .map(request::getHeader)
                 .filter(ip -> ip != null && !ip.isEmpty() && !IP_UNKNOWN.equalsIgnoreCase(ip))
                 .findFirst()
                 .orElse(null);
+        return (ipAddress != null) ? ipAddress : request.getRemoteAddr();
     }
 
     /**
@@ -76,7 +51,12 @@ public class IPUtils {
      * @return
      */
     public static String getIP(ServerHttpRequest request) {
-        String ipAddress = getHeaderIp(request);
+        HttpHeaders headers = request.getHeaders();
+        String ipAddress = IP_HEADERS.stream()
+                .map(headers::getFirst)
+                .filter(ip -> ip != null && !ip.isEmpty() && !IP_UNKNOWN.equalsIgnoreCase(ip))
+                .findFirst()
+                .orElse(null);
         if (ipAddress == null) {
             ipAddress = Optional.ofNullable(request.getRemoteAddress())
                     .map(address -> address.getAddress().getHostAddress())
@@ -97,5 +77,19 @@ public class IPUtils {
             }
         }
         return ipAddress;
+    }
+
+    /**
+     * 获取本机IP地址
+     *
+     * @return
+     */
+    public static String getIP() {
+        try {
+            InetAddress localInetAddress = InetAddress.getLocalHost();
+            return localInetAddress.getHostAddress();
+        } catch (UnknownHostException e) {
+            return IP_LOCAL;
+        }
     }
 }

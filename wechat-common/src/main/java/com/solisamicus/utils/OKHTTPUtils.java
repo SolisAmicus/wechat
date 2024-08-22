@@ -17,8 +17,7 @@ public class OKHTTPUtils {
                     .url(url)
                     .build();
             Response response = CLIENT.newCall(request).execute();
-            String res = response.body().string();
-            return JsonUtils.jsonToPojo(res, GraceJSONResult.class);
+            return JsonUtils.jsonToPojo(response.body().string(), GraceJSONResult.class);
         } catch (Exception e) {
             log.error("Get failed:", e);
         }

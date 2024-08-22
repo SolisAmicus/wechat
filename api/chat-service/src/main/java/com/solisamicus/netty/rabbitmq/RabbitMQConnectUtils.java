@@ -1,6 +1,9 @@
 package com.solisamicus.netty.rabbitmq;
 
 import com.rabbitmq.client.*;
+import com.solisamicus.netty.websocket.UserSession;
+import com.solisamicus.pojo.netty.DataContent;
+import com.solisamicus.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,34 @@ public class RabbitMQConnectUtils {
 
     public void setConnection(Connection connection) throws Exception {
         getAndSetConnection(false, connection);
+    }
+
+    public void listen(String queue, String exchange) throws Exception {
+        Connection connection = getConnection();
+        Channel channel = connection.createChannel();
+        channel.exchangeDeclare(exchange, BuiltinExchangeType.FANOUT, true, false, false, null);
+        channel.queueDeclare(queue, true, false, false, null);
+        channel.queueBind(queue, exchange, "");
+        Consumer consumer = new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
+                String data = new String(body);
+                String exchange = envelope.getExchange();
+                if (exchange.equalsIgnoreCase(FANOUT_EXCHANGE)) {
+                    DataContent dataContent = JsonUtils.jsonToPojo(data, DataContent.class);
+                    // 广播至 netty server 集群节点并发送给其他用户消息
+                    String senderId = dataContent.getChatMsg().getSenderId();
+                    String receiverId = dataContent.getChatMsg().getReceiverId();
+                    List<io.netty.channel.Channel> receiverChannels = UserSession.getMultiChannels(receiverId);
+                    UserSession.sendToTarget(receiverChannels, dataContent);
+                    // 广播至 netty server 集群节点并同步给自身设备消息
+                    String currentChannelId = dataContent.getExtend();
+                    List<io.netty.channel.Channel> senderChannels = UserSession.getMyOtherMultiChannels(senderId, currentChannelId);
+                    UserSession.sendToTarget(senderChannels, dataContent);
+                }
+            }
+        };
+        channel.basicConsume(queue, true, consumer);
     }
 
     private synchronized Connection getAndSetConnection(boolean isGet, Connection connection) throws Exception {

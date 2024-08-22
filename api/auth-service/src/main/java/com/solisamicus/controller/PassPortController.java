@@ -41,7 +41,7 @@ public class PassPortController{
             return GraceJSONResult.error();
         }
 
-        String ip = IPUtils.getRequestIp(request);
+        String ip = IPUtils.getIp(request);
         redis.setIfAbsentWithTTL(captchaRedisKey(ip), mobile, CAPTCHA_VALIDITY_SECONDS); // <keyForIp, mobile>
 
         String captcha = generateCaptcha();
@@ -138,7 +138,8 @@ public class PassPortController{
 
     @PostMapping("logout")
     public GraceJSONResult logout(@RequestParam("userId") String userId) {
-        redis.deleteKeysByValue(userId);
+        String keyPrefix = "redis_user_token:app."; // 这是你要传入的前缀
+        redis.deleteKeysByValue(keyPrefix, userId);
         return GraceJSONResult.ok();
     }
 

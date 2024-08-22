@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.solisamicus.enums.MsgType;
 import com.solisamicus.grace.result.GraceJSONResult;
 import com.solisamicus.netty.rabbitmq.RabbitMQPublisher;
+import com.solisamicus.netty.zookeeper.ZookeeperCustom;
 import com.solisamicus.pojo.netty.ChatMsg;
 import com.solisamicus.pojo.netty.DataContent;
+import com.solisamicus.pojo.netty.ServerNode;
+import com.solisamicus.utils.JedisPoolUtils;
 import com.solisamicus.utils.JsonUtils;
 import com.solisamicus.utils.LocalDateUtils;
 import com.solisamicus.utils.OKHTTPUtils;
@@ -16,16 +19,16 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import redis.clients.jedis.Jedis;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
-public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>{
     public static ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) throws Exception {
         String content = textWebSocketFrame.text();
         DataContent data = JsonUtils.jsonToPojo(content, DataContent.class);
         assert data != null;
@@ -50,47 +53,24 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
         if (Objects.equals(msgType, MsgType.CONNECT_INIT.type)) {
             UserSession.putMultiChannels(senderId, channel);
             UserSession.putUserChannel(channelId, senderId);
-            UserSession.printSessions();
+            ServerNode minServerNode = data.getServerNode();
+            ZookeeperCustom.incrementOnlineCounts(minServerNode);
+            Jedis jedis = JedisPoolUtils.getJedisPool().getResource();
+            jedis.set(senderId, JsonUtils.objectToJson(minServerNode));
         } else if (MsgType.WORDS.type.equals(msgType)
                 || MsgType.IMAGE.type.equals(msgType)
                 || MsgType.VIDEO.type.equals(msgType)
                 || MsgType.VOICE.type.equals(msgType)) {
             chatMsg.setMsgId(IdWorker.getIdStr());
-            List<Channel> receiverChannels = UserSession.getMultiChannels(receiverId);
-            if (Objects.isNull(receiverChannels) || receiverChannels.isEmpty()) {
-                chatMsg.setIsReceiverOnLine(false);
-            } else {
-                chatMsg.setIsReceiverOnLine(true);
-                // 发送消息，同一用户不同设备
-                for (Channel c : receiverChannels) {
-                    Channel findChannel = clients.find(c.id());
-                    if (Objects.nonNull(findChannel)) {
-                        if (MsgType.VOICE.type.equals(msgType)) chatMsg.setIsRead(false);
-                        data.setChatMsg(chatMsg);
-                        data.setChatTime(LocalDateUtils.format(chatMsg.getChatTime(), LocalDateUtils.DATETIME_PATTERN_2));
-                        findChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.objectToJson(data)));
-                    }
-                }
+            if (MsgType.VOICE.type.equals(msgType)) {
+                chatMsg.setIsRead(false);
             }
-            try {
-                RabbitMQPublisher.sendMsgToSave(chatMsg);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            data.setChatMsg(chatMsg);
+            data.setExtend(channelId);
+            data.setChatTime(LocalDateUtils.format(chatMsg.getChatTime(), LocalDateUtils.DATETIME_PATTERN_2));
+            RabbitMQPublisher.sendMsgToOtherNettyServers(data); // 订阅模式
+            RabbitMQPublisher.sendMsgToSave(chatMsg); // 主题模式
         }
-        List<Channel> myOtherMultiChannels = UserSession.getMyOtherMultiChannels(senderId, channelId);
-        // 同步消息，同一用户不同设备
-        for (Channel c : myOtherMultiChannels) {
-            Channel findChannel = clients.find(c.id());
-            if (Objects.nonNull(findChannel)) {
-                data.setChatMsg(chatMsg);
-                data.setChatTime(LocalDateUtils.format(chatMsg.getChatTime(), LocalDateUtils.DATETIME_PATTERN_2));
-                findChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.objectToJson(data)));
-            }
-        }
-        System.out.printf("Received data: %s\n", content);
-        String currentChannelId = channelHandlerContext.channel().id().asLongText();
-        System.out.printf("Current channel id: %s\n", currentChannelId);
     }
 
     @Override
@@ -102,13 +82,16 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
     }
 
     @Override
-    public void handlerRemoved(ChannelHandlerContext ctx) {
+    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel currentChannel = ctx.channel();
         String currentChannelId = currentChannel.id().asLongText();
         System.out.printf("* Remove channel: %s\n", currentChannelId);
         String userChannels = UserSession.getUserChannels(currentChannelId);
         UserSession.removeUselessChannels(userChannels, currentChannel);
         clients.remove(currentChannel);
+        Jedis jedis = JedisPoolUtils.getJedisPool().getResource();
+        ServerNode minServerNode = JsonUtils.jsonToPojo(jedis.get(userChannels), ServerNode.class);
+        ZookeeperCustom.decrementOnlineCounts(minServerNode);
     }
 
     @Override
@@ -120,5 +103,8 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
         UserSession.removeUselessChannels(userChannels, currentChannel);
         ctx.channel().close();
         clients.remove(currentChannel);
+        Jedis jedis = JedisPoolUtils.getJedisPool().getResource();
+        ServerNode minServerNode = JsonUtils.jsonToPojo(jedis.get(userChannels), ServerNode.class);
+        ZookeeperCustom.decrementOnlineCounts(minServerNode);
     }
 }

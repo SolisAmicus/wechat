@@ -5,6 +5,8 @@ public class RabbitMQConstants {
 
     public static final String QUEUE = "test_queue";
 
+    public static final String FANOUT_EXCHANGE="fanout_exchange";
+
     public static final String ROUTING_KEY = "solisamicus.wechat.#";
 
     public static final String ROUTING_KEY_TEST_SEND = "solisamicus.wechat.test.send";

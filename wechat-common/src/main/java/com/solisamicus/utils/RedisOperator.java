@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -85,17 +86,24 @@ public class RedisOperator {
 
 
     /**
-     * Deletes all key-value pairs where the value matches the specified target value.
+     * Deletes all keys matching the pattern <keyPrefix>* where the value matches the specified target value.
      *
+     * @param keyPrefix the prefix of the keys to match
      * @param targetValue the value to match against the stored values
      */
-    public void deleteKeysByValue(String targetValue) {
-        Cursor<byte[]> cursor = redisTemplate.executeWithStickyConnection(redisConnection -> redisConnection.scan(ScanOptions.scanOptions().match("*").count(1000).build()));
-        while (cursor.hasNext()) {
-            String key = new String(cursor.next());
-            String value = redisTemplate.opsForValue().get(key);
-            if (targetValue.equals(value)) {
-                redisTemplate.delete(key);
+    public void deleteKeysByValue(String keyPrefix, String targetValue) {
+        String keyPattern = keyPrefix + "*";
+        ScanOptions scanOptions = ScanOptions.scanOptions().match(keyPattern).count(1000).build();
+
+        try (Cursor<byte[]> cursor = redisTemplate.executeWithStickyConnection(
+                redisConnection -> redisConnection.scan(scanOptions)
+        )) {
+            while (cursor.hasNext()) {
+                String key = new String(cursor.next());
+                String value = redisTemplate.opsForValue().get(key);
+                if (targetValue.equals(value)) {
+                    redisTemplate.delete(key);
+                }
             }
         }
     }
