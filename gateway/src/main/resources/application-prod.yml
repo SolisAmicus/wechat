@@ -1,0 +1,40 @@
+server:
+  port: 1000
+
+spring:
+  data:
+    redis:
+      host: <INTERNAL_IP>
+      port: 16379
+      password: redis
+      database: 0
+  cloud:
+    nacos:
+      discovery:
+        server-addr: <INTERNAL_IP>
+        username: nacos
+        password: nacos
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: authRoute
+          uri: lb://auth-service
+          predicates:
+            - Path=/a/**,/passport/**
+        - id: fileRoute
+          uri: lb://file-service
+          predicates:
+            - Path=/f/**,/file/**,/static/**,/speech/**
+        - id: mainRoute
+          uri: lb://main-service
+          predicates:
+            - Path=/m/**,/userinfo/**,/friendRequest/**,/friendship/**,/friendCircle/**,/comment/**,/chat/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+            allowCredentials: true

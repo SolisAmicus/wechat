@@ -1,0 +1,22 @@
+server:
+  port: 5555
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: <INTERNAL_IP>:8848
+        username: nacos
+        password: nacos
+  rabbitmq:
+    host: <INTERNAL_IP>
+    port: 5682
+    username: solisamicus
+    password: rabbitmq
+    virtual-host: wechat-dev
+minio:
+  endpoint: <INTERNAL_IP>:9000
+  fileHost: <PUBLIC_IP>:9000
+  bucketName: wechat
+  accessKey: solisamicus
+  secretKey: miniowechat

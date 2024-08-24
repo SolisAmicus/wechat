@@ -4,40 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ede2bba-d6ee-48cf-b956-4c4eec27cea6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/ChatServe2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/zookeeper/ZookeeperCustom.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/zookeeper/ZookeeperRegister.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/rabbitmq/RabbitMQAdminConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/zookeeper/CuratorConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/CuratorConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/JedisConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/ZookeeperConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/CuratorUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/JedisPoolUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/test/java/com/solisamicus/utils/CuratorUtilsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-common/src/test/java/com/solisamicus/utils/JedisPoolUtilsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wechat-pojo/src/main/java/com/solisamicus/pojo/netty/ServerNode.java" afterDir="false" />
+    <list default="true" id="1ede2bba-d6ee-48cf-b956-4c4eec27cea6" name="Changes" comment="feat: Integrate Zookeeper for Netty Server registration and load balancing; implement message distribution with RabbitMQ">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/auth-service/src/main/java/com/solisamicus/controller/PassPortController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/auth-service/src/main/java/com/solisamicus/controller/PassPortController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/base-service/src/main/java/com/solisamicus/interceptor/SMSInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/base-service/src/main/java/com/solisamicus/interceptor/SMSInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/rabbitmq/RabbitMQConnectUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/rabbitmq/RabbitMQConnectUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/rabbitmq/RabbitMQPublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/rabbitmq/RabbitMQPublisher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/ChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/ChatServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/UserSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/UserSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/chat-service/src/main/java/com/solisamicus/netty/websocket/WebSocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/main-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/java/com/solisamicus/controller/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/excludeUrlPath.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/excludeUrlPath.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/RabbitMQConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/constants/RabbitMQConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/IPUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/IPUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/OKHTTPUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/OKHTTPUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/RedisOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-common/src/main/java/com/solisamicus/utils/RedisOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat-pojo/src/main/java/com/solisamicus/pojo/netty/DataContent.java" beforeDir="false" afterPath="$PROJECT_DIR$/wechat-pojo/src/main/java/com/solisamicus/pojo/netty/DataContent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/auth-service/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/auth-service/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/file-service/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/file-service/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/main-service/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/main-service/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +98,7 @@
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "http.proxy",
     "vue.rearranger.settings.migration": "true"
   }
@@ -305,7 +278,7 @@
       <workItem from="1723730201725" duration="1165000" />
       <workItem from="1723731381079" duration="35469000" />
       <workItem from="1723905994936" duration="388000" />
-      <workItem from="1723906389329" duration="61715000" />
+      <workItem from="1723906389329" duration="71251000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Implement Netty chat service with session management, multi-device message sync, Redis key refactor, and AI integration">
       <option name="closed" value="true" />
@@ -323,7 +296,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723823528868</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: Integrate Zookeeper for Netty Server registration and load balancing; implement message distribution with RabbitMQ">
+      <option name="closed" value="true" />
+      <created>1724317026293</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1724317026293</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -343,7 +324,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: Implement Netty chat service with session management, multi-device message sync, Redis key refactor, and AI integration" />
     <MESSAGE value="feat: Integrate RabbitMQ with Spring Boot for async decoupling of chat message sending and receiving" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Integrate RabbitMQ with Spring Boot for async decoupling of chat message sending and receiving" />
+    <MESSAGE value="feat: Integrate Zookeeper for Netty Server registration and load balancing; implement message distribution with RabbitMQ" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Integrate Zookeeper for Netty Server registration and load balancing; implement message distribution with RabbitMQ" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
